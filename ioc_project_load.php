@@ -27,18 +27,19 @@ function ioc_project_autoload($name) {
     $type_class = splitCamelCase($name, "last");
     if ($type_class) {
         $class_dir = projectClassCfg::getClassDir($type_class);
-        if ($class_dir)
-            $class_file = $projectDir."/".$class_dir."/".$name.".php";
-    
-        if ($class_file && file_exists($class_file) && is_file($class_file)) {
-            include_once ($class_file);
-        }
-        else {
-            $arr_default_class_dir = projectClassCfg::getDefaultClassDir($type_class);
-            foreach ($arr_default_class_dir as $dir) {
-                $fichero = $dir."/".$name.".php";
-                if (file_exists($fichero) && is_file($fichero)) {
-                    include_once ($fichero);
+        foreach ($class_dir as $dir) {
+            $class_file = $projectDir."/".$dir."/".$name.".php";
+            if ($class_file && file_exists($class_file) && is_file($class_file)) {
+                include_once ($class_file);
+                break;
+            }else {
+                $arr_default_class_dir = projectClassCfg::getDefaultClassDir($type_class);
+                foreach ($arr_default_class_dir as $dir) {
+                    $fichero = $dir."/".$name.".php";
+                    if (file_exists($fichero) && is_file($fichero)) {
+                        include_once ($fichero);
+                        break 2;
+                    }
                 }
             }
         }
@@ -46,6 +47,7 @@ function ioc_project_autoload($name) {
     return;
 }
 function splitCamelCase($name, $elem) {
+    $ret = null;
     $arr = preg_split("/[A-Z]/", $name);
     foreach ($arr as $v) {
         if ($v && $v != $name) {
