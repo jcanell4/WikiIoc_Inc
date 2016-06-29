@@ -29,7 +29,7 @@ function ioc_project_autoload($name) {
 
     $type_class = splitCamelCase($name, "last");
     if ($type_class) {
-        $class_dir = projectClassCfg::getClassDir($type_class);
+        $class_dir = getClassDir($type_class);
         foreach ($class_dir as $dir) {
             $class_file = $projectDir."/".$dir."/".$name.".php";
             if ($class_file && file_exists($class_file) && is_file($class_file)) {
@@ -48,6 +48,22 @@ function ioc_project_autoload($name) {
         }
     }
     return;
+}
+
+function getClassDir($name) {
+   $cfg = array (
+            "Action" => array (
+                           "actions"
+                          ,"actions/extra"
+                        )
+           ,"Authorization" => array (
+                                 "authorization"
+                               )
+           ,"Model" => array (
+                           "datamodel"
+                       )
+          );
+   return $cfg[$name];
 }
 
 function splitCamelCase($name, $elem) {
