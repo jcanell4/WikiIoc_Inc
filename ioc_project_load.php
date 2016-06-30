@@ -22,7 +22,6 @@ function ioc_project_autoload($name) {
      */
     if ($plugin_controller) {
         $projectDir = DOKU_PROJECTS.$plugin_controller->getCurrentProject();
-        //$projectDir = DOKU_PROJECTS."defaultProject";   //Valor Hard-Coded temporal
         $defaultClassCfg = $projectDir."projectClassCfg.php";
         $existsDefaultClassCfg = @file_exists($defaultClassCfg);
 
