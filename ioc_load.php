@@ -14,10 +14,8 @@ spl_autoload_register('ioc_autoload');
 /**
  * spl_autoload_register callback
  *
- * Contains a static list of DokuWiki's extra classes and automatically
- * require()s their associated php files when an object is instantiated.
- *
- * @culpable Rafael Claver
+ * Cuando una clase, perteneciente a un proyecto concreto de un plugin, es instanciada,
+ * se carga el fichero php que contiene dicha clase.
  */
 function ioc_autoload($name) {
     global $plugin_controller;
@@ -33,11 +31,17 @@ function ioc_autoload($name) {
         return;
     }
 
-    // Plugin loading
+    /*
+     * El nombre de la clase buscada debe ser: 
+     * - si la clase está en un fichero llamado <tipo>.php: 
+     *      <tipo>_plugin_<nombre_del_plugin>_projects_<nombre_del_proyecto>
+     * - si la clase está en un fichero dentro del directorio <tipo>: 
+     *      <tipo>_plugin_<nombre_del_plugin>_projects_<nombre_del_proyecto>_<nombre_del_fichero_php>
+     */
     if (preg_match('/^(auth|command|helper|syntax|action|admin|renderer|remote)_plugin_('
                     .DOKU_PLUGIN_NAME_REGEX.')_projects_('.DOKU_PLUGIN_NAME_REGEX.')(?:_([^_]+))?$/',
                     $name, $m)) {
-        // try to load the wanted plugin file
+        // try to load the wanted class file
         if (count($m) >= 4 && $plugin_controller->getCurrentProject() !== $m[3]) {
             echo 'el nom del projecte no coincideix';
         }else {
@@ -50,9 +54,10 @@ function ioc_autoload($name) {
             return;
         }
     }
+    // El nombre de la clase buscada debe ser: command_plugin_<nombre_del_plugin>
     elseif(preg_match('/^(command)_plugin_('.DOKU_PLUGIN_NAME_REGEX.')(?:_([^_]+))?$/',
                     $name, $m)) {
-        // try to load the wanted plugin file
+        // try to load the wanted class file
         $c = ((count($m) === 4) ? "/{$m[3]}" : '');
         $plg = DOKU_PLUGIN . "{$m[2]}/{$m[1]}$c.php";
         if(@file_exists($plg)){
