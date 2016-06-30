@@ -20,28 +20,29 @@ function ioc_project_autoload($name) {
      * - el directorio del tipo de clase (indicado en el archivo de configuración del proyecto) +
      * - el nombre de la clase
      */
-    if ($plugin_controller)
+    if ($plugin_controller) {
         $projectDir = DOKU_PROJECTS.$plugin_controller->getCurrentProject();
-    
-    $projectDir = DOKU_PROJECTS."defaultProject";   //Valor Hard-Coded temporal
-    
-    include_once $projectDir."/projectClassCfg.php";
+        //$projectDir = DOKU_PROJECTS."defaultProject";   //Valor Hard-Coded temporal
+        $defaultClassCfg = $projectDir."projectClassCfg.php";
+        $existsDefaultClassCfg = @file_exists($defaultClassCfg);
 
-    $type_class = splitCamelCase($name, "last");
-    if ($type_class) {
-        $class_dir = getClassDir($type_class);
-        foreach ($class_dir as $dir) {
-            $class_file = $projectDir."/".$dir."/".$name.".php";
-            if ($class_file && file_exists($class_file) && is_file($class_file)) {
-                include_once ($class_file);
-                break;
-            }else {
-                $arr_default_class_dir = projectClassCfg::getDefaultClassDir($type_class);
-                foreach ($arr_default_class_dir as $dir) {
-                    $fichero = $dir."/".$name.".php";
-                    if (file_exists($fichero) && is_file($fichero)) {
-                        include_once ($fichero);
-                        break 2;
+        $type_class = splitCamelCase($name, "last");
+        if ($type_class) {
+            $class_dir = getClassDir($type_class);
+            foreach ($class_dir as $dir) {
+                $class_file = $projectDir."/".$dir."/".$name.".php";
+                if ($class_file && file_exists($class_file) && is_file($class_file)) {
+                    include_once ($class_file);
+                    break;
+                }else if($existsDefaultClassCfg) {
+                    include_once $defaultClassCfg;
+                    $arr_default_class_dir = projectClassCfg::getDefaultClassDir($type_class);
+                    foreach ($arr_default_class_dir as $dir) {
+                        $fichero = $dir."/".$name.".php";
+                        if (file_exists($fichero) && is_file($fichero)) {
+                            include_once ($fichero);
+                            break 2;
+                        }
                     }
                 }
             }
