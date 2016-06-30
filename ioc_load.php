@@ -1,10 +1,8 @@
 <?php
 /**
  * Load extra libraries and setup class autoloader
- *
  * @culpable Rafael Claver
  */
-
 if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(dirname(__FILE__).'/../../').'/');
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 if (!defined('DOKU_PLUGIN_NAME_REGEX')) define('DOKU_PLUGIN_NAME_REGEX', '[a-zA-Z0-9\x7f-\xff]+');
@@ -45,6 +43,7 @@ function ioc_autoload($name) {
         if (count($m) >= 4 && $plugin_controller->getCurrentProject() !== $m[3]) {
             echo 'el nom del projecte no coincideix';
         }else {
+            // [TODO Rafael] no me gusta establecer el nombre de un plugin particular
             if ($m[2]=='wikiiocmodel') {
                 $c = "/{$m[4]}";
             }
@@ -55,8 +54,7 @@ function ioc_autoload($name) {
         }
     }
     // El nombre de la clase buscada debe ser: command_plugin_<nombre_del_plugin>
-    elseif(preg_match('/^(command)_plugin_('.DOKU_PLUGIN_NAME_REGEX.')(?:_([^_]+))?$/',
-                    $name, $m)) {
+    elseif(preg_match('/^(command)_plugin_('.DOKU_PLUGIN_NAME_REGEX.')(?:_([^_]+))?$/', $name, $m)) {
         // try to load the wanted class file
         $c = ((count($m) === 4) ? "/{$m[3]}" : '');
         $plg = DOKU_PLUGIN . "{$m[2]}/{$m[1]}$c.php";
