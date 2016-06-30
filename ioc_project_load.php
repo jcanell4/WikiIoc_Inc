@@ -25,7 +25,7 @@ function ioc_project_autoload($name) {
     
     //$projectDir = DOKU_PROJECTS."defaultProject";   //Valor Hard-Coded temporal
     
-    $defaultClassCfg = $projectDir."/projectClassCfg.php";
+    $defaultClassCfg = $projectDir."projectClassCfg.php";
     $hasDefaultClass = @file_exists($defaultClassCfg);
     $type_class = splitCamelCase($name, "last");
     if ($type_class) {
