@@ -22,7 +22,7 @@ function ioc_project_autoload($name) {
      */
     if ($plugin_controller) {
         $projectDir = DOKU_PROJECTS.$plugin_controller->getCurrentProject();
-        $defaultClassCfg = $projectDir."projectClassCfg.php";
+        $defaultClassCfg = $projectDir."/projectClassCfg.php";
         $existsDefaultClassCfg = @file_exists($defaultClassCfg);
 
         $type_class = splitCamelCase($name, "last");
