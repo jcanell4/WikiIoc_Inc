@@ -23,12 +23,16 @@ function ioc_project_autoload($name) {
      */
     if ($plugin_controller) {
         $projectDir = DOKU_PROJECTS.$plugin_controller->getCurrentProject();
+        $defaultClassCfg = $projectDir."projectClassCfg.php";
+        $existsDefaultClassCfg = @file_exists($defaultClassCfg);
 
         if (is_null($classes)) {
             $classes = getMainClass($projectDir);
         }
-        if (is_null($defaultClasses)) {
-            $defaultClasses = getDefaultMainClass();
+        if ($existsDefaultClassCfg) {
+            include_once $defaultClassCfg;
+            if (is_null($defaultClasses)) 
+                $defaultClasses = getDefaultMainClass();
         }
 
         if (isset($classes[$name])) {
@@ -46,8 +50,8 @@ function ioc_project_autoload($name) {
     
     if ($plugin_controller) {
         //$projectDir = DOKU_PROJECTS.$plugin_controller->getCurrentProject();
-        $defaultClassCfg = $projectDir."projectClassCfg.php";
-        $existsDefaultClassCfg = @file_exists($defaultClassCfg);
+        //$defaultClassCfg = $projectDir."projectClassCfg.php";
+        //$existsDefaultClassCfg = @file_exists($defaultClassCfg);
         /*
          * La ruta y nombre del fichero que contiene la classe solicitada se compone de:
          * - una ruta base + 
@@ -64,7 +68,7 @@ function ioc_project_autoload($name) {
                     include_once ($class_file);
                     break;
                 }else if($existsDefaultClassCfg) {
-                    include_once $defaultClassCfg;
+                    //include_once $defaultClassCfg;
                     $arr_default_class_dir = projectClassCfg::getDefaultClassDir($type_class);
                     foreach ($arr_default_class_dir as $dir) {
                         $fichero = $dir."/".$name.".php";
