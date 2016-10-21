@@ -28,7 +28,7 @@ function ioc_project_autoload($name) {
         }
         
         $projectDir = "/".trim(DOKU_PROJECTS.$plugin_controller->getCurrentProject(), '/')."/";
-        $dokuModelManager = $projectDir."DokuModelManager.php";
+        $dokuModelManager = $projectDir."DokuModelManager.php"; //[TODO Rafa] ¿por qué DokuModelManager.php a pelo?
         $existDokuModelManager = @file_exists($dokuModelManager);
 
         if (is_null($defClasses)) {
