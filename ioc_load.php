@@ -3,7 +3,7 @@
  * Load extra libraries and setup class autoloader
  * @culpable Rafael Claver
  */
-if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(dirname(__FILE__, 2)).'/');
+if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(realpath(dirname(__FILE__) . '/../../')) . '/');
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 if (!defined('DOKU_PLUGIN_NAME_REGEX')) define('DOKU_PLUGIN_NAME_REGEX', '[a-zA-Z0-9\x7f-\xff]+');
 

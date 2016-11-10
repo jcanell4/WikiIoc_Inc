@@ -4,7 +4,7 @@
  *
  * @culpable Rafael Claver
  */
-if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(dirname(__FILE__, 2)).'/');
+if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(realpath(dirname(__FILE__) . '/../../')) . '/');
 if (!defined('DOKU_PROJECTS')) define('DOKU_PROJECTS', DOKU_INC.'lib/plugins/wikiiocmodel/projects/');
 
 spl_autoload_register('ioc_project_autoload');
