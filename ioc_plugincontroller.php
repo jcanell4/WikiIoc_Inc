@@ -4,9 +4,7 @@
  *
  * @culpable Rafael Claver
  */
-
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
-if (!defined('DOKU_PROJECT')) define('DOKU_PROJECT', DOKU_INC.'lib/projects/');
 require_once(DOKU_INC.'inc/plugincontroller.class.php');
 
 class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
@@ -102,6 +100,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         }
     }
     
+//if (!defined('DOKU_PROJECT')) define('DOKU_PROJECT', DOKU_INC.'lib/projects/');
     /**
      * Split name in a plugin name and a component name.
      * If '~' exists, it's indicate a project name

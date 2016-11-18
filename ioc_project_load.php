@@ -5,7 +5,7 @@
  * @culpable Rafael Claver
  */
 if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(realpath(dirname(__FILE__) . '/../../')) . '/');
-if (!defined('DOKU_PROJECTS')) define('DOKU_PROJECTS', DOKU_INC.'lib/plugins/wikiiocmodel/projects/');
+if (!defined('WIKI_IOC_PROJECTS')) define('WIKI_IOC_PROJECTS', DOKU_INC.'lib/plugins/wikiiocmodel/projects/');
 
 spl_autoload_register('ioc_project_autoload');
 
@@ -27,7 +27,7 @@ function ioc_project_autoload($name) {
             return;
         }
         
-        $projectDir = "/".trim(DOKU_PROJECTS.$plugin_controller->getCurrentProject(), '/')."/";
+        $projectDir = "/".trim(WIKI_IOC_PROJECTS.$plugin_controller->getCurrentProject(), '/')."/";
         $dokuModelManager = $projectDir."DokuModelManager.php"; //[TODO Rafa] ¿por qué DokuModelManager.php a pelo?
         $existDokuModelManager = @file_exists($dokuModelManager);
 
