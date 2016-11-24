@@ -21,8 +21,8 @@ function ioc_project_autoload($name) {
         //Filtro previo
         $type_class = splitCamelCase($name, "last");
         if ($type_class) {
-            $arr_class_dir = getClassDir($type_class);
-            if (!$arr_class_dir) return;
+            $arr_dir_class = getDirClass($type_class);
+            if (!$arr_dir_class) return;
         }else {
             return;
         }
@@ -31,26 +31,26 @@ function ioc_project_autoload($name) {
         $dokuModelManager = $projectDir."DokuModelManager.php"; //[TODO Rafa] ¿por qué DokuModelManager.php a pelo?
         $existDokuModelManager = @file_exists($dokuModelManager);
 
-        if (is_null($defClasses)) {
-            $defClasses = getMainClass($projectDir);
-        }
         if ($existDokuModelManager) {
             include_once $dokuModelManager;
             if (is_null($defClasssProj)) {
                 $defClasssProj = DokuModelManager::getDefaultMainClass();
             }
         }
+        if (is_null($defClasses)) {
+            $defClasses = getMainClass($projectDir);
+        }
 
-        if (isset($defClasses[$name])) {
-            if (@file_exists($defClasses[$name]) && is_file($defClasses[$name])) {
+        if (isset($defClasssProj[$name]) && 
+            @file_exists($defClasssProj[$name]) && 
+            is_file($defClasssProj[$name])) {
+                require_once($defClasssProj[$name]);
+                return;
+        }elseif (isset($defClasses[$name]) && 
+            @file_exists($defClasses[$name]) && 
+            is_file($defClasses[$name])) {
                 require_once($defClasses[$name]);
                 return;
-            }elseif (isset($defClasssProj[$name])) {
-                if (@file_exists($defClasssProj[$name]) && is_file($defClasssProj[$name])) {
-                    require_once($defClasssProj[$name]);
-                    return;
-                }
-            }
         }
 
         /*
@@ -60,10 +60,8 @@ function ioc_project_autoload($name) {
          * - el directorio del tipo de clase (indicado en el archivo de configuración del proyecto) +
          * - el nombre de la clase
          */
-        //$type_class = splitCamelCase($name, "last"); ya se ha obtenido en el filtro previo
         if ($type_class) {
-            //$arr_class_dir = getClassDir($type_class); ya se ha obtenido en el filtro previo
-            foreach ($arr_class_dir as $dir) {
+            foreach ($arr_dir_class as $dir) {
                 $class_file = $projectDir.$dir."/".$name.".php";
                 //Busca la clase en las rutas propias del proyecto
                 if (@file_exists($class_file) && is_file($class_file)) {
@@ -71,8 +69,8 @@ function ioc_project_autoload($name) {
                     break;
                 }else if($existDokuModelManager) {
                     //Si no encuentra la clase solicitada en las rutas propias del proyecto, buscará rutas alternativas definidas en DokumodelManager
-                    $arr_project_class_dir = DokuModelManager::getDefaultClassDir($type_class);
-                    foreach ($arr_project_class_dir as $projdir) {
+                    $arr_project_dir_class = DokuModelManager::getDefaultDirClass($type_class);
+                    foreach ($arr_project_dir_class as $projdir) {
                         $fichero = $projdir."/".$name.".php";
                         if (@file_exists($fichero) && is_file($fichero)) {
                             include_once ($fichero);
@@ -87,7 +85,7 @@ function ioc_project_autoload($name) {
 }
 
 /* Establece las rutas propias ($projectdir) de las clases del proyecto actual */
-function getClassDir($name) {
+function getDirClass($name) {
    $cfg = array (
             "Action" => array (
                            "actions"
@@ -106,7 +104,8 @@ function getClassDir($name) {
 /* Establece las clases, a cargar por defecto, para cualquier proyecto */
 function getMainClass($projectDir) {
     $defClasses = array(
-                    "DokuModelAdapter" => "${projectDir}DokuModelAdapter.php"
+                    "DokuModelAdapter" => "${projectDir}DokuModelAdapter.php",
+                    "FactoryAuthorization" => "${projectDir}authorization/FactoryAuthorization.php"
                   );
     return $defClasses;
 }
