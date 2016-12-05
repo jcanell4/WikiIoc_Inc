@@ -3,7 +3,7 @@
  * Load extra libraries and setup class autoloader
  * @culpable Rafael Claver
  */
-if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(dirname(__FILE__).'/../../').'/');
+if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(realpath(dirname(__FILE__) . '/../../')) . '/');
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 if (!defined('DOKU_PLUGIN_NAME_REGEX')) define('DOKU_PLUGIN_NAME_REGEX', '[a-zA-Z0-9\x7f-\xff]+');
 
@@ -20,7 +20,15 @@ function ioc_autoload($name) {
     static $classes = null;
     if (is_null($classes)) {
         $classes = array(
-            'Ioc_Plugin_Controller' => DOKU_INC.'inc/inc_ioc/ioc_plugincontroller.php',
+            'Ioc_Plugin_Controller'  => DOKU_INC.'inc/inc_ioc/ioc_plugincontroller.php',
+
+            'DokuWiki_Action_Plugin' => DOKU_PLUGIN.'action.php',
+            'DokuWiki_Admin_Plugin'  => DOKU_PLUGIN.'admin.php',
+            'DokuWiki_Syntax_Plugin' => DOKU_PLUGIN.'syntax.php',
+            'DokuWiki_Remote_Plugin' => DOKU_PLUGIN.'remote.php',
+            'DokuWiki_Auth_Plugin'   => DOKU_PLUGIN.'auth.php',
+            
+            'MetaDataService'        => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php'
         );
     }
 
