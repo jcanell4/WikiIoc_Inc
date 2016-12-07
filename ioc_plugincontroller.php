@@ -6,7 +6,6 @@
  */
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 require_once(DOKU_INC.'inc/plugincontroller.class.php');
-
 class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     
     protected $list_byProjectType = array();
@@ -22,20 +21,15 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         parent::__construct();
         $this->_populateMasterListProjects();
     }
-
     public function getList($type='', $all=false) {
         $parenListByType = parent::getList($type, $all);    // request the complete plugin list
         if (!$type) return $parenListByType;
-
         if (!isset($this->list_byProjectType[$type]['enabled'])) 
             $this->list_byProjectType[$type]['enabled'] = $this->_getListByProjectType($type,true);
-
         if ($all && !isset($this->list_byProjectType[$type]['disabled'])) 
             $this->list_byProjectType[$type]['disabled'] = $this->_getListByProjectType($type,false);
-
         return $all ? array_merge($parenListByType,$this->list_byProjectType[$type]['enabled'],$this->list_byProjectType[$type]['disabled']) : array_merge($parenListByType,$this->list_byProjectType[$type]['enabled']);
     }
-
     public function setCurrentProject($name) {
         $this->currentProject = $name;
     }
@@ -57,7 +51,6 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         $plugins = array();
         foreach ($master_list as $plugin) {
             $dir = $this->_get_directory_project($plugin);
-
             if (@file_exists(DOKU_PLUGIN."$dir/$type.php")){
                 $plugins[] = $this->_nameTransform($dir);
             } else {
@@ -148,5 +141,4 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
 //        }
 //        $this->tmp_projects = array_merge($this->project_cascade['default'], $this->project_cascade['local'], $this->project_cascade['protected']);
 //    }
-
 }
