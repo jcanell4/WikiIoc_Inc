@@ -118,6 +118,4 @@ class MailerIOC extends Mailer{
         $this->setHTML($html);
         $this->setText($text);
     }
-
-
 }
