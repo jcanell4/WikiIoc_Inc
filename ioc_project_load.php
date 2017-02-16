@@ -5,7 +5,7 @@
  * @culpable Rafael Claver
  */
 if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(realpath(dirname(__FILE__) . '/../../')) . '/');
-if (!defined('WIKI_IOC_PROJECTS')) define('WIKI_IOC_PROJECTS', DOKU_INC.'lib/plugins/wikiiocmodel/projects/');
+define('WIKI_IOC_PROJECTS', DOKU_INC . 'lib/plugins/wikiiocmodel/projects/');
 
 spl_autoload_register('ioc_project_autoload');
 
