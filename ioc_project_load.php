@@ -1,7 +1,6 @@
 <?php
 /**
  * Load extra libraries from projects and setup class autoloader
- *
  * @culpable Rafael Claver
  */
 if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(realpath(dirname(__FILE__) . '/../../')) . '/');
