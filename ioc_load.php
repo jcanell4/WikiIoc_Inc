@@ -28,7 +28,11 @@ function ioc_autoload($name) {
             'DokuWiki_Remote_Plugin' => DOKU_PLUGIN.'remote.php',
             'DokuWiki_Auth_Plugin'   => DOKU_PLUGIN.'auth.php',
             
-            'MetaDataService'        => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php'
+            'MetaDataService'        => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',
+            
+            'WikiGlobalConfig'        => DOKU_PLUGIN.'owninit/WikiGlobalConfig.php',
+            'WikiIocLangManager'        => DOKU_PLUGIN.'wikiiocmodel/WikiIocLangManager.php',
+            'WikiIocInfoManager'        => DOKU_PLUGIN.'wikiiocmodel/WikiIocInfoManager.php'
         );
     }
 
