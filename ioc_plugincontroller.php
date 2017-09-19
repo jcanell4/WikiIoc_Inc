@@ -1,19 +1,18 @@
 <?php
 /**
  * Class to extend the encapsulate access to dokuwiki plugins
- *
  * @culpable Rafael Claver
  */
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 require_once(DOKU_INC.'inc/plugincontroller.class.php');
 class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
-    
+
     protected $list_byProjectType = array();
     protected $tmp_projects = array();
     protected $project_cascade = array('default'=>array(), 'local'=>array(), 'protected'=>array());
     protected $last_local_config_file_project = '';
     protected $currentProject = '';
-    
+
     /**
      * Populates the parent master list of plugins and add projects
      */
@@ -24,16 +23,16 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     public function getList($type='', $all=false) {
         $parenListByType = parent::getList($type, $all);    // request the complete plugin list
         if (!$type) return $parenListByType;
-        if (!isset($this->list_byProjectType[$type]['enabled'])) 
+        if (!isset($this->list_byProjectType[$type]['enabled']))
             $this->list_byProjectType[$type]['enabled'] = $this->_getListByProjectType($type,true);
-        if ($all && !isset($this->list_byProjectType[$type]['disabled'])) 
+        if ($all && !isset($this->list_byProjectType[$type]['disabled']))
             $this->list_byProjectType[$type]['disabled'] = $this->_getListByProjectType($type,false);
         return $all ? array_merge($parenListByType,$this->list_byProjectType[$type]['enabled'],$this->list_byProjectType[$type]['disabled']) : array_merge($parenListByType,$this->list_byProjectType[$type]['enabled']);
     }
     public function setCurrentProject($name) {
         $this->currentProject = $name;
     }
-    
+
     public function getCurrentProject() {
         return $this->currentProject;
     }
@@ -86,7 +85,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             $all_plugin_projects = array();
             while (false !== ($project = readdir($dh))) {
                 if ($project[0] == '.' || is_file(DOKU_PLUGIN.$project)) continue; // skip hidden entries and files, we're only interested in directories
-                if (@file_exists(DOKU_PLUGIN.$project.'/projects')) 
+                if (@file_exists(DOKU_PLUGIN.$project.'/projects'))
                     $all_plugin_projects[$project] = 1;
             }
             $this->tmp_projects = $all_plugin_projects;
