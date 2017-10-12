@@ -22,7 +22,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     }
     public function getList($type='', $all=false) {
         $parenListByType = parent::getList($type, $all);    // request the complete plugin list
-        if (!$type) return $parenListByType;
+        if (!$type) return $parenListByType;  //[JOSEP] ALERTA: Així només retornarà la llista sencera, però exceptuant els plugins dels projectes. Cal afegir la llista complerta inclosos els projectes
         if (!isset($this->list_byProjectType[$type]['enabled']))
             $this->list_byProjectType[$type]['enabled'] = $this->_getListByProjectType($type,true);
         if ($all && !isset($this->list_byProjectType[$type]['disabled']))
