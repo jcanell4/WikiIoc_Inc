@@ -104,6 +104,9 @@ function getDirClass($name) {
            ,"Model" => array (
                            "datamodel/"
                        )
+           ,"Exporter" => array (
+                           "exporter/"
+                       )
           );
    return $cfg[$name];
 }
