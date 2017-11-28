@@ -11,13 +11,13 @@ spl_autoload_register('ioc_autoload');
 
 /**
  * spl_autoload_register callback
- *
  * Cuando una clase, perteneciente a un proyecto concreto de un plugin, es instanciada,
  * se carga el fichero php que contiene dicha clase.
  */
 function ioc_autoload($name) {
     global $plugin_controller;
     static $classes = null;
+
     if (is_null($classes)) {
         $classes = array(
             'Ioc_Plugin_Controller'  => DOKU_INC.'inc/inc_ioc/ioc_plugincontroller.php',
@@ -27,12 +27,20 @@ function ioc_autoload($name) {
             'DokuWiki_Syntax_Plugin' => DOKU_PLUGIN.'syntax.php',
             'DokuWiki_Remote_Plugin' => DOKU_PLUGIN.'remote.php',
             'DokuWiki_Auth_Plugin'   => DOKU_PLUGIN.'auth.php',
-            
+
+            'ajaxCall'                      => DOKU_PLUGIN.'ajaxcommand/ajaxClasses.php',
+            'ajaxRest'                      => DOKU_PLUGIN.'ajaxcommand/ajaxClasses.php',
+            'AbstractResponseHandler'       => DOKU_PLUGIN.'ajaxcommand/AbstractResponseHandler.php',
+            'AjaxCmdResponseGenerator'      => DOKU_PLUGIN.'ajaxcommand/AjaxCmdResponseGenerator.php',
+            'abstract_command_class'        => DOKU_PLUGIN.'ajaxcommand/abstract_command_class.php',
+            'abstract_project_command_class'=> DOKU_PLUGIN.'ajaxcommand/abstract_project_command_class.php',
+            'abstract_rest_command_class'   => DOKU_PLUGIN.'ajaxcommand/abstract_rest_command_class.php',
+
             'MetaDataService'        => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',
-            
-            'WikiGlobalConfig'        => DOKU_PLUGIN.'owninit/WikiGlobalConfig.php',
-            'WikiIocLangManager'        => DOKU_PLUGIN.'wikiiocmodel/WikiIocLangManager.php',
-            'WikiIocInfoManager'        => DOKU_PLUGIN.'wikiiocmodel/WikiIocInfoManager.php'
+
+            'WikiGlobalConfig'       => DOKU_PLUGIN.'owninit/WikiGlobalConfig.php',
+            'WikiIocLangManager'     => DOKU_PLUGIN.'wikiiocmodel/WikiIocLangManager.php',
+            'WikiIocInfoManager'     => DOKU_PLUGIN.'wikiiocmodel/WikiIocInfoManager.php'
         );
     }
 
@@ -42,10 +50,10 @@ function ioc_autoload($name) {
     }
 
     /*
-     * El nombre de la clase buscada debe ser: 
-     * - si la clase está en un fichero llamado <tipo>.php: 
+     * El nombre de la clase buscada debe ser:
+     * - si la clase está en un fichero llamado <tipo>.php:
      *      <tipo>_plugin_<nombre_del_plugin>_projects_<nombre_del_proyecto>
-     * - si la clase está en un fichero dentro del directorio <tipo>: 
+     * - si la clase está en un fichero dentro del directorio <tipo>:
      *      <tipo>_plugin_<nombre_del_plugin>_projects_<nombre_del_proyecto>_<nombre_del_fichero_php>
      */
     if (preg_match('/^(auth|command|helper|syntax|action|admin|renderer|remote)_plugin_('
