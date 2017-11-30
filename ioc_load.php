@@ -4,6 +4,7 @@
  * @culpable Rafael Claver
  */
 if (!defined('DOKU_INC')) define('DOKU_INC', realpath(dirname(__FILE__) . '/../../') . '/');
+if (!defined('DOKU_LIB_IOC')) define('DOKU_LIB_IOC', DOKU_INC.'lib/lib_ioc/');
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 if (!defined('DOKU_PLUGIN_NAME_REGEX')) define('DOKU_PLUGIN_NAME_REGEX', '[a-zA-Z0-9\x7f-\xff]+');
 
@@ -28,19 +29,31 @@ function ioc_autoload($name) {
             'DokuWiki_Remote_Plugin' => DOKU_PLUGIN.'remote.php',
             'DokuWiki_Auth_Plugin'   => DOKU_PLUGIN.'auth.php',
 
-            'ajaxCall'                      => DOKU_PLUGIN.'ajaxcommand/ajaxClasses.php',
-            'ajaxRest'                      => DOKU_PLUGIN.'ajaxcommand/ajaxClasses.php',
-            'AbstractResponseHandler'       => DOKU_PLUGIN.'ajaxcommand/AbstractResponseHandler.php',
-            'AjaxCmdResponseGenerator'      => DOKU_PLUGIN.'ajaxcommand/AjaxCmdResponseGenerator.php',
-            'abstract_command_class'        => DOKU_PLUGIN.'ajaxcommand/abstract_command_class.php',
-            'abstract_project_command_class'=> DOKU_PLUGIN.'ajaxcommand/abstract_project_command_class.php',
-            'abstract_rest_command_class'   => DOKU_PLUGIN.'ajaxcommand/abstract_rest_command_class.php',
+            'ajaxCall'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
+            'ajaxRest'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
+            'AbstractResponseHandler'       => DOKU_LIB_IOC.'ajaxcommand/AbstractResponseHandler.php',
+            'AjaxCmdResponseGenerator'      => DOKU_LIB_IOC.'ajaxcommand/AjaxCmdResponseGenerator.php',
+            'abstract_command_class'        => DOKU_LIB_IOC.'ajaxcommand/abstract_command_class.php',
+            'abstract_project_command_class'=> DOKU_LIB_IOC.'ajaxcommand/abstract_project_command_class.php',
+            'abstract_rest_command_class'   => DOKU_LIB_IOC.'ajaxcommand/abstract_rest_command_class.php',
+
+            'WikiGlobalConfig'       => DOKU_PLUGIN.'owninit/WikiGlobalConfig.php',
 
             'MetaDataService'        => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',
 
-            'WikiGlobalConfig'       => DOKU_PLUGIN.'owninit/WikiGlobalConfig.php',
-            'WikiIocLangManager'     => DOKU_PLUGIN.'wikiiocmodel/WikiIocLangManager.php',
-            'WikiIocInfoManager'     => DOKU_PLUGIN.'wikiiocmodel/WikiIocInfoManager.php'
+            'AbstractActionManager'        => DOKU_LIB_IOC.'wikiiocmodel/AbstractActionManager.php',
+            'AbstractCommandAuthorization' => DOKU_LIB_IOC.'wikiiocmodel/AbstractCommandAuthorization.php',
+            'AbstractPermission'           => DOKU_LIB_IOC.'wikiiocmodel/AbstractPermission.php',
+            'AuthorizationKeys'            => DOKU_LIB_IOC.'wikiiocmodel/AuthorizationKeys.php',
+
+            'WikiIocInfoManager'     => DOKU_LIB_IOC.'wikiiocmodel/WikiIocInfoManager.php',
+            'WikiIocLangManager'     => DOKU_LIB_IOC.'wikiiocmodel/WikiIocLangManager.php',
+            'WikiIocModelExceptions' => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php',
+            'WikiIocModelManager'    => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelManager.php',
+
+            'ResourceLocker'            => DOKU_LIB_IOC.'wikiiocmodel/ResourceLocker.php',
+            'ResourceLockerInterface'   => DOKU_LIB_IOC.'wikiiocmodel/ResourceLockerInterface.php',
+            'ResourceUnlockerInterface' => DOKU_LIB_IOC.'wikiiocmodel/ResourceUnlockerInterface.php',
         );
     }
 
