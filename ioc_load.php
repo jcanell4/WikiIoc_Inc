@@ -37,7 +37,12 @@ function ioc_autoload($name) {
             'abstract_project_command_class'=> DOKU_LIB_IOC.'ajaxcommand/abstract_project_command_class.php',
             'abstract_rest_command_class'   => DOKU_LIB_IOC.'ajaxcommand/abstract_rest_command_class.php',
 
-            'WikiGlobalConfig'       => DOKU_PLUGIN.'owninit/WikiGlobalConfig.php',
+            'JsonGenerator'     => DOKU_LIB_IOC.'ajaxcommand/JsonGenerator.php',
+            'JSonGeneratorImpl' => DOKU_LIB_IOC.'ajaxcommand/JsonGenerator.php',
+            'ArrayJSonGenerator'=> DOKU_LIB_IOC.'ajaxcommand/JsonGenerator.php',
+            'JSonJustEncoded'   => DOKU_LIB_IOC.'ajaxcommand/JsonGenerator.php',
+
+            'WikiGlobalConfig'       => DOKU_PLUGIN.'ownInit/WikiGlobalConfig.php',
 
             'MetaDataService'        => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',
 
@@ -48,7 +53,7 @@ function ioc_autoload($name) {
 
             'WikiIocInfoManager'     => DOKU_LIB_IOC.'wikiiocmodel/WikiIocInfoManager.php',
             'WikiIocLangManager'     => DOKU_LIB_IOC.'wikiiocmodel/WikiIocLangManager.php',
-            'WikiIocModelExceptions' => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php',
+            'WikiIocModelException'  => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php',
             'WikiIocModelManager'    => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelManager.php',
 
             'ResourceLocker'            => DOKU_LIB_IOC.'wikiiocmodel/ResourceLocker.php',
@@ -59,6 +64,11 @@ function ioc_autoload($name) {
 
     if (isset($classes[$name])) {
         require_once($classes[$name]);
+        return;
+    }
+
+    if (preg_match('/.*Exception$/', $name)) {
+        require_once(DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php');
         return;
     }
 
