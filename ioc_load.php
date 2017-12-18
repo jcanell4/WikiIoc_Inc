@@ -51,6 +51,7 @@ function ioc_autoload($name) {
             'AbstractPermission'           => DOKU_LIB_IOC.'wikiiocmodel/AbstractPermission.php',
             'AuthorizationKeys'            => DOKU_LIB_IOC.'wikiiocmodel/AuthorizationKeys.php',
 
+            'AbstractModelManager'   => DOKU_LIB_IOC.'wikiiocmodel/AbstractModelManager.php',
             'WikiIocInfoManager'     => DOKU_LIB_IOC.'wikiiocmodel/WikiIocInfoManager.php',
             'WikiIocLangManager'     => DOKU_LIB_IOC.'wikiiocmodel/WikiIocLangManager.php',
             'WikiIocModelException'  => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php',
