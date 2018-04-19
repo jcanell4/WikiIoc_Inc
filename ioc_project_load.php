@@ -71,11 +71,13 @@ function ioc_project_autoload($name) {
         //Si no encuentra la clase solicitada en las rutas propias del proyecto, buscará en rutas alternativas definidas en DokumodelManager
         if ($existDokuModelManager) {
             $arr_project_dir_class = DokuModelManager::getDefaultDirClass($type_class);
-            foreach ($arr_project_dir_class as $projdir) {
-                $fichero = $projdir.$name.".php";
-                if (@file_exists($fichero) && is_file($fichero)) {
-                    include_once ($fichero);
-                    return;
+            if ($arr_project_dir_class) {
+                foreach ($arr_project_dir_class as $projdir) {
+                    $fichero = $projdir.$name.".php";
+                    if (@file_exists($fichero) && is_file($fichero)) {
+                        include_once ($fichero);
+                        return;
+                    }
                 }
             }
         }
