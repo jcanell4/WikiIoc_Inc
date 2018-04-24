@@ -29,6 +29,7 @@ function ioc_autoload($name) {
             'DokuWiki_Remote_Plugin' => DOKU_PLUGIN.'remote.php',
             'DokuWiki_Auth_Plugin'   => DOKU_PLUGIN.'auth.php',
 
+            'IocCommon'                     => DOKU_LIB_IOC.'common/IocCommon.php',
             'ajaxCall'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
             'ajaxRest'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
             'AbstractResponseHandler'       => DOKU_LIB_IOC.'ajaxcommand/AbstractResponseHandler.php',
