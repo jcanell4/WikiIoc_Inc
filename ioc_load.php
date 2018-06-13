@@ -75,6 +75,7 @@ function ioc_autoload($name) {
 
     if (preg_match('/.*Exception$/', $name)) {
         require_once(DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php');
+        require_once(DOKU_LIB_IOC.'wikiiocmodel/DefaultProjectModelExceptions.php');
         return;
     }
 
