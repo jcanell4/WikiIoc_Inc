@@ -44,9 +44,9 @@ function ioc_autoload($name) {
             'ArrayJSonGenerator'=> DOKU_LIB_IOC.'ajaxcommand/JsonGenerator.php',
             'JSonJustEncoded'   => DOKU_LIB_IOC.'ajaxcommand/JsonGenerator.php',
 
-            'WikiGlobalConfig'       => DOKU_PLUGIN.'ownInit/WikiGlobalConfig.php',
-
-            'MetaDataService'        => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',
+            'WikiGlobalConfig'  => DOKU_PLUGIN.'ownInit/WikiGlobalConfig.php',
+            'MetaDataService'   => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',
+            'BasicPermission'   => DOKU_PLUGIN.'wikiiocmodel/authorization/BasicPermission.php',
 
             'AbstractActionManager'        => DOKU_LIB_IOC.'wikiiocmodel/AbstractActionManager.php',
             'AbstractCommandAuthorization' => DOKU_LIB_IOC.'wikiiocmodel/AbstractCommandAuthorization.php',
@@ -64,7 +64,6 @@ function ioc_autoload($name) {
             'ResourceUnlockerInterface' => DOKU_LIB_IOC.'wikiiocmodel/ResourceUnlockerInterface.php',
 
             'AbstractProjectModel'   => DOKU_LIB_IOC.'wikiiocmodel/datamodel/AbstractProjectModel.php',
-
         );
     }
 
