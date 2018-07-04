@@ -47,6 +47,7 @@ function ioc_autoload($name) {
             'WikiGlobalConfig'  => DOKU_PLUGIN.'ownInit/WikiGlobalConfig.php',
             'MetaDataService'   => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',
             'BasicPermission'   => DOKU_PLUGIN.'wikiiocmodel/authorization/BasicPermission.php',
+            'ProjectPermission'   => DOKU_PLUGIN.'wikiiocmodel/authorization/ProjectPermission.php',
 
             'AbstractActionManager'        => DOKU_LIB_IOC.'wikiiocmodel/AbstractActionManager.php',
             'AbstractCommandAuthorization' => DOKU_LIB_IOC.'wikiiocmodel/AbstractCommandAuthorization.php',
