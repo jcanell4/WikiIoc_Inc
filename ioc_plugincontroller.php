@@ -31,10 +31,10 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             $this->list_byProjectType[$type]['disabled'] = $this->_getListByProjectType($type,false);
         return $all ? array_merge($parenListByType,$this->list_byProjectType[$type]['enabled'],$this->list_byProjectType[$type]['disabled']) : array_merge($parenListByType,$this->list_byProjectType[$type]['enabled']);
     }
-    public function setCurrentProject($name, $projectSourceType = null, $projectName= null) {
+    public function setCurrentProject($name, $projectSourceType = null, $projectOwner = null) {
         $this->currentProject = $name;
         $this->projectSourceType = $projectSourceType;
-        $this->currentProjectName = $projectName;
+        $this->currentProjectName = $projectOwner;
     }
 
     public function getCurrentProject() {
