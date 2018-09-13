@@ -84,6 +84,11 @@ function ioc_autoload($name) {
         return;
     }
 
+    if (preg_match('/.*ProjectUpdateProcessor$/', $name)) {
+        require_once(DOKU_LIB_IOC.'wikiiocmodel/ProjectUpdateProcessor.php');
+        return;
+    }
+
     /*
      * El nombre de la clase buscada debe ser:
      * - si la clase está en un fichero llamado <tipo>.php:
