@@ -12,8 +12,10 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     protected $project_cascade = array('default'=>array(), 'local'=>array(), 'protected'=>array());
     protected $last_local_config_file_project = '';
     protected $currentProject = '';
-    protected $currentProjectName = '';
+    protected $projectOwner = '';
     protected $projectSourceType= '';
+    protected $persistenceEngine;
+    protected $modelManager;
 
     /**
      * Populates the parent master list of plugins and add projects
@@ -34,36 +36,33 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     public function setCurrentProject($name, $projectSourceType = null, $projectOwner = null) {
         $this->currentProject = $name;
         $this->projectSourceType = $projectSourceType;
-        $this->currentProjectName = $projectOwner;
+        $this->projectOwner = $projectOwner;
     }
 
     public function getCurrentProject() {
         return $this->currentProject;
     }
 
+    public function setPersistenceEngine($persistenceEngine) {
+        $this->persistenceEngine = $persistenceEngine;
+    }
+
+
     public function getCurrentProjectDataSource() {
 
-        if ($this->currentProjectName) {
-            // TODO: carregar el fitxer amb les dades mdpr i retornarlo
-            // el nom del fitxer ha de ser getConf('mdprojects') . '/' . %this->currentProjectOwner;
-            // el nom del projecte es troba a $this->currentProjectName
-            // i el tipus de la font del projecte a $this->projectSourceType
+        if ($this->projectOwner && $this->persistenceEngine) {
 
-            $file = WikiGlobalConfig::getConf('mdprojects', "iocexportl");
+            $model = new BasicWikiDataModel($this->persistenceEngine);
 
+            $query = $model->getProjectMetaDataQuery();
 
+            $data = $query->getDataProject($this->projectOwner, $this->projectSourceType);
 
-            $idResoucePath = WikiGlobalConfig::getConf('mdprojects')."/".$this->projectSourceType;
-            $projectfilepath = "$idResoucePath/".$this->projectType."/$this->currentProjectName";
-            $dataArray = $this->getProjectDataFile($projectfilepath, ProjectKeys::VAL_DEFAULTSUBSET);
+            return $data;
 
 
-
-
-
-            return $dataArray;
         } else {
-            //throw new Exception("Project not specified");
+            throw new Exception("Project or persistence not specified");
         }
 
 
