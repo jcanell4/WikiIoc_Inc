@@ -37,6 +37,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         $this->currentProject = $name;
         $this->projectSourceType = $projectSourceType;
         $this->projectOwner = $projectOwner;
+
     }
 
     public function getCurrentProject() {
