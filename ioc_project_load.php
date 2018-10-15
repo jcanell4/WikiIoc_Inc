@@ -1,13 +1,12 @@
 <?php
 /**
  * Load extra libraries from projects and setup class autoloader
- *
  * @culpable Rafael Claver
  */
-if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(realpath(dirname(__FILE__) . '/../../')) . '/');
-define('WIKI_IOC_MODEL', DOKU_INC . 'lib/plugins/wikiiocmodel/');
-define('WIKI_IOC_PROJECTS', WIKI_IOC_MODEL . 'projects/');
-define('DOKUMODELMANAGER', 'DokuModelManager.php');
+if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(realpath(dirname(__FILE__) . "/../../")) . "/");
+if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . "lib/plugins/");
+if (!defined('WIKI_IOC_MODEL')) define('WIKI_IOC_MODEL', DOKU_PLUGIN . "wikiiocmodel/");
+define('DOKUMODELMANAGER', "DokuModelManager.php");
 
 spl_autoload_register('ioc_project_autoload');
 
@@ -25,13 +24,17 @@ function ioc_project_autoload($name) {
         if ($type_class) $arr_dir_class = getDirClass($type_class);
         if (!$type_class || !$arr_dir_class) return;
 
-        $projectDir = "/".trim(WIKI_IOC_PROJECTS.$plugin_controller->getCurrentProject(), '/')."/";
-        $dokuModelManager = $projectDir.DOKUMODELMANAGER;
-        $existDokuModelManager = @file_exists($dokuModelManager);
+        $existDokuModelManager = class_exists('DokuModelManager', FALSE);
+        if ($existDokuModelManager) {
+            $projectDir = DokuModelManager::getProjectTypeDir();
+        }else {
+            $dokuModelManager = getTheModelManagerForThisProject($plugin_controller->getCurrentProject());
+        }
 
         // En el DokuModelManager de cada proyecto se establecen las rutas a las clases que necesita el proyecto
         if ($existDokuModelManager) {
-            include_once $dokuModelManager;
+            if ($dokuModelManager)
+                include_once $dokuModelManager;
             if (is_null($defClasssProj)) {
                 $defClasssProj = DokuModelManager::getDefaultMainClass();
             }
@@ -106,6 +109,9 @@ function getDirClass($name) {
            ,"Model" => array (
                            "datamodel/"
                        )
+           ,"MetaData" => array (
+                           "metadata/"
+                       )
            ,"Exporter" => array (
                            "exporter/"
                        )
@@ -122,7 +128,7 @@ function getMainClass($projectDir) {
     return $defClasses;
 }
 
-function splitCamelCase($name, $elem) {
+function splitCamelCase($name, $elem, $c=1) {
     $ret = null;
     $arr = preg_split("/[A-Z]/", $name);
     foreach ($arr as $v) {
@@ -131,5 +137,27 @@ function splitCamelCase($name, $elem) {
             $ret[] = substr($name, $p, 1) . $v;
         }
     }
-    return ($elem=="last") ? $ret[count($ret)-1]: $ret;
+    if ($elem === "last") {
+        $valor = $ret[count($ret)-1];
+    }else {
+        $valor = "";
+        for ($i=0; $i<$c; $i++) {
+            $valor .= $ret[$i];
+        }
+    }
+    return $valor;
+}
+
+//busca el DokuModelManager correspondiente al tipo de proyecto solicitado en los proyectos de todos los plugins de tipo action
+function getTheModelManagerForThisProject($currentProjectType) {
+    global $plugin_controller;
+    $plugin_list = $plugin_controller->getList('action');
+    foreach ($plugin_list as $plugin) {
+        $projectDir = DOKU_PLUGIN."$plugin/projects/$currentProjectType/";
+        $dokuModelManager = $projectDir.DOKUMODELMANAGER;
+        if (($existDokuModelManager = @file_exists($dokuModelManager))) {
+            break;
+        }
+    }
+    return ($existDokuModelManager) ? $dokuModelManager : NULL;
 }
