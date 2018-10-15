@@ -12,6 +12,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     protected $project_cascade = array('default'=>array(), 'local'=>array(), 'protected'=>array());
     protected $last_local_config_file_project = '';
     protected $currentProject = '';
+    protected $projectTypeDir = '';
     protected $projectOwner = '';
     protected $projectSourceType= '';
     protected $persistenceEngine;
@@ -33,40 +34,37 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             $this->list_byProjectType[$type]['disabled'] = $this->_getListByProjectType($type,false);
         return $all ? array_merge($parenListByType,$this->list_byProjectType[$type]['enabled'],$this->list_byProjectType[$type]['disabled']) : array_merge($parenListByType,$this->list_byProjectType[$type]['enabled']);
     }
-    public function setCurrentProject($name, $projectSourceType = null, $projectOwner = null) {
-        $this->currentProject = $name;
-        $this->projectSourceType = $projectSourceType;
-        $this->projectOwner = $projectOwner;
-
+    public function setCurrentProject($params) {
+        $this->currentProject    = $params[AjaxKeys::PROJECT_TYPE];
+        $this->projectSourceType = $params[AjaxKeys::PROJECT_SOURCE_TYPE];
+        $this->projectOwner      = $params[AjaxKeys::PROJECT_OWNER];
+        $this->projectTypeDir    = $params[AjaxKeys::PROJECT_TYPE_DIR];
     }
 
     public function getCurrentProject() {
         return $this->currentProject;
     }
 
+    public function getProjectTypeDir() {
+        return $this->projectTypeDir;
+    }
+
     public function setPersistenceEngine($persistenceEngine) {
         $this->persistenceEngine = $persistenceEngine;
     }
 
-
     public function getCurrentProjectDataSource() {
-
         if ($this->projectOwner && $this->persistenceEngine) {
-
             $model = new BasicWikiDataModel($this->persistenceEngine);
-
             $query = $model->getProjectMetaDataQuery();
-
-            $data = $query->getDataProject($this->projectOwner, $this->projectSourceType);
-
+            $data = $query->getDataProject([ProjectKeys::KEY_ID => $this->projectOwner,
+                                            ProjectKeys::KEY_PROJECT_TYPE => $this->projectSourceType,
+                                            ProjectKeys::KEY_PROJECTTYPE_DIR => $this->getProjectTypeDir()
+                                          ]);
             return $data;
-
-
-        } else {
+        }else {
             throw new Exception("Project or persistence not specified");
         }
-
-
     }
 
 
@@ -115,7 +113,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         }
         return $plugins;
     }
-    
+
     /**
      * @param string $plugin name of plugin
      * @return string directory name of plugin
@@ -123,12 +121,12 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     private function _get_directory_project($plugin) {
         return "$plugin/projects/{$this->getCurrentProject()}";
     }
-    
+
     private function _nameTransform($name) {
         //return str_replace('/', '_', str_replace('/projects/', '~', $name));
         return str_replace('/', '_', $name);
     }
-    
+
     private function _populateMasterListProjects() {
         if ($dh = @opendir(DOKU_PLUGIN)) {
             $all_plugin_projects = array();
@@ -140,7 +138,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             $this->tmp_projects = $all_plugin_projects;
         }
     }
-    
+
 //if (!defined('DOKU_PROJECT')) define('DOKU_PROJECT', DOKU_INC.'lib/projects/');
     /**
      * Split name in a plugin name and a component name.
@@ -158,7 +156,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
 //        }
 //        return array($name, '');
 //    }
-    
+
 //    protected function _populateMasterListProjects() {
 //        global $conf;
 //
@@ -174,7 +172,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
 //            }
 //        }
 //    }
-//    
+//
 //    protected function loadConfigProjects() {
 //        global $config_cascade;
 //        foreach(array('default','protected') as $type) {
