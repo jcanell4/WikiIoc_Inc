@@ -47,24 +47,24 @@ function ioc_autoload($name) {
             'WikiGlobalConfig'  => DOKU_PLUGIN.'ownInit/WikiGlobalConfig.php',
             'MetaDataService'   => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',
             'BasicPermission'   => DOKU_PLUGIN.'wikiiocmodel/authorization/BasicPermission.php',
-            'ProjectPermission'   => DOKU_PLUGIN.'wikiiocmodel/authorization/ProjectPermission.php',
+            'ProjectPermission' => DOKU_PLUGIN.'wikiiocmodel/authorization/ProjectPermission.php',
 
             'AbstractActionManager'        => DOKU_LIB_IOC.'wikiiocmodel/AbstractActionManager.php',
             'AbstractCommandAuthorization' => DOKU_LIB_IOC.'wikiiocmodel/AbstractCommandAuthorization.php',
             'AbstractPermission'           => DOKU_LIB_IOC.'wikiiocmodel/AbstractPermission.php',
             'AuthorizationKeys'            => DOKU_LIB_IOC.'wikiiocmodel/AuthorizationKeys.php',
 
-            'AbstractModelManager'   => DOKU_LIB_IOC.'wikiiocmodel/AbstractModelManager.php',
-            'WikiIocInfoManager'     => DOKU_LIB_IOC.'wikiiocmodel/WikiIocInfoManager.php',
-            'WikiIocLangManager'     => DOKU_LIB_IOC.'wikiiocmodel/WikiIocLangManager.php',
-            'WikiIocModelException'  => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php',
-            'WikiIocModelManager'    => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelManager.php',
+            'AbstractModelManager'  => DOKU_LIB_IOC.'wikiiocmodel/AbstractModelManager.php',
+            'WikiIocInfoManager'    => DOKU_LIB_IOC.'wikiiocmodel/WikiIocInfoManager.php',
+            'WikiIocLangManager'    => DOKU_LIB_IOC.'wikiiocmodel/WikiIocLangManager.php',
+            'WikiIocModelException' => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php',
+            'WikiIocModelManager'   => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelManager.php',
 
             'ResourceLocker'            => DOKU_LIB_IOC.'wikiiocmodel/ResourceLocker.php',
             'ResourceLockerInterface'   => DOKU_LIB_IOC.'wikiiocmodel/ResourceLockerInterface.php',
             'ResourceUnlockerInterface' => DOKU_LIB_IOC.'wikiiocmodel/ResourceUnlockerInterface.php',
 
-            'AbstractProjectModel'   => DOKU_LIB_IOC.'wikiiocmodel/datamodel/AbstractProjectModel.php',
+            'AbstractProjectModel' => DOKU_LIB_IOC.'wikiiocmodel/datamodel/AbstractProjectModel.php',
         );
     }
 
@@ -96,17 +96,13 @@ function ioc_autoload($name) {
      * - si la clase está en un fichero dentro del directorio <tipo>:
      *      <tipo>_plugin_<nombre_del_plugin>_projects_<nombre_del_proyecto>_<nombre_del_fichero_php>
      */
-    if (preg_match('/^(auth|command|helper|syntax|action|admin|renderer|remote)_plugin_('
-                    .DOKU_PLUGIN_NAME_REGEX.')_projects_('.DOKU_PLUGIN_NAME_REGEX.')(?:_([^_]+))?$/',
+    if (preg_match('/^(auth|command|helper|syntax|action|admin|renderer|remote)_plugin_'.
+                     '('.DOKU_PLUGIN_NAME_REGEX.')_projects_('.DOKU_PLUGIN_NAME_REGEX.')(?:_([^_]+))?$/',
                     $name, $m)) {
         // try to load the wanted class file
         if (count($m) >= 4 && $plugin_controller->getCurrentProject() !== $m[3]) {
             echo 'el nom del projecte no coincideix';
         }else {
-            // [TODO Rafael] no me gusta establecer el nombre de un plugin particular
-            if ($m[2]=='wikiiocmodel') {
-                $c = "/{$m[4]}";
-            }
             $c = ((count($m) === 5) ? "/{$m[4]}" : '');
             $plg = DOKU_PLUGIN . "{$m[2]}/projects/{$m[3]}/{$m[1]}$c.php";
             if (@file_exists($plg)) include_once $plg;
