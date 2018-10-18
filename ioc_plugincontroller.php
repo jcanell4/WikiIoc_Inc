@@ -57,15 +57,21 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     }
 
 
-    public function getCurrentProjectDataSource() {
+    public function getCurrentProjectDataSource($projectOwner=NULL, $projectSourceType=NULL) {
+        if(!$projectOwner){
+            $projectOwner = $this->projectOwner;
+        }
+        if(!$projectSourceType){
+            $projectSourceType = $this->projectSourceType;
+        }
 
-        if ($this->projectOwner && $this->persistenceEngine) {
+        if ($projectOwner && $this->persistenceEngine) {
 
             $model = new BasicWikiDataModel($this->persistenceEngine);
 
             $query = $model->getProjectMetaDataQuery();
 
-            $data = $query->getDataProject($this->projectOwner, $this->projectSourceType);
+            $data = $query->getDataProject($projectOwner, $projectSourceType);
 
             return $data;
 
