@@ -16,6 +16,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     protected $projectSourceType= '';
     protected $persistenceEngine;
     protected $modelManager;
+    protected $projectDataSubSet;
 
     /**
      * Populates the parent master list of plugins and add projects
@@ -23,6 +24,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     public function __construct() {
         parent::__construct();
         $this->_populateMasterListProjects();
+        $this->projectDataSubSet = ProjectKeys::VAL_DEFAULTSUBSET;
     }
     public function getList($type='', $all=false) {
         $parenListByType = parent::getList($type, $all);    // request the complete plugin list
@@ -57,6 +59,29 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     }
 
 
+    public function getProjectFile($projectOwner=NULL, $projectSourceType=NULL) {
+        if(!$projectOwner){
+            $projectOwner = $this->projectOwner;
+        }
+        if(!$projectSourceType){
+            $projectSourceType = $this->projectSourceType;
+        }
+
+        if ($projectOwner && $this->persistenceEngine) {
+
+            $model = new BasicWikiDataModel($this->persistenceEngine);
+            $query = $model->getProjectMetaDataQuery();
+
+            $param = array(ProjectKeys::KEY_PROJECT_TYPE => $projectSourceType, ProjectKeys::KEY_METADATA_SUBSET=> $this->projectDataSubSet);
+            $data = $query->getFileName($projectOwner, $param);
+
+            return $data;
+        } else {
+            throw new Exception("Project or persistence not specified");
+        }
+        
+    }
+    
     public function getCurrentProjectDataSource($projectOwner=NULL, $projectSourceType=NULL) {
         if(!$projectOwner){
             $projectOwner = $this->projectOwner;
