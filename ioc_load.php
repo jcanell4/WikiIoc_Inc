@@ -64,7 +64,18 @@ function ioc_autoload($name) {
             'ResourceLockerInterface'   => DOKU_LIB_IOC.'wikiiocmodel/ResourceLockerInterface.php',
             'ResourceUnlockerInterface' => DOKU_LIB_IOC.'wikiiocmodel/ResourceUnlockerInterface.php',
 
-            'AbstractProjectModel' => DOKU_LIB_IOC.'wikiiocmodel/datamodel/AbstractProjectModel.php',
+            'AbstractProjectModel'   => DOKU_LIB_IOC.'wikiiocmodel/datamodel/AbstractProjectModel.php',
+            
+            'AdminKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/AdminKeys.php',
+            'AjaxKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/AjaxKeys.php',
+            'GlobalKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/GlobalKeys.php',
+            'LockKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/LockKeys.php',
+            'MediaKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/MediaKeys.php',
+            'PageKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/PageKeys.php',
+            'ProjectKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/ProjectKeys.php',
+            'RequestParameterKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/RequestParameterKeys.php',
+            'ResponseHandlerKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/ResponseHandlerKeys.php',
+            'UserStateKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/UserStateKeys.php',
         );
     }
 
@@ -86,6 +97,21 @@ function ioc_autoload($name) {
 
     if (preg_match('/.*ProjectUpdateProcessor$/', $name)) {
         require_once(DOKU_LIB_IOC.'wikiiocmodel/ProjectUpdateProcessor.php');
+        return;
+    }
+
+    if (preg_match('/^Validat.*$/', $name)) {
+        require_once(DOKU_LIB_IOC.'common/utility/'.$name.'.php');
+        return;
+    }
+
+    if (preg_match('/Wioccl.*$/', $name)) {
+        require_once(DOKU_LIB_IOC.'wioccl/'.$name.'.php');
+        return;
+    }
+
+    if (preg_match('/_Wioccl.*$/', $name)) {
+        require_once(DOKU_LIB_IOC.'wioccl/'.$name.'.php');
         return;
     }
 
