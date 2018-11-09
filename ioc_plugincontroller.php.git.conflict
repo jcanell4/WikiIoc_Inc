@@ -12,7 +12,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     protected $project_cascade = array('default'=>array(), 'local'=>array(), 'protected'=>array());
     protected $last_local_config_file_project = '';
     protected $currentProject = '';
-//    protected $projectTypeDir = '';
+    protected $projectTypeDir = '';
     protected $projectOwner = '';
     protected $projectSourceType= '';
     protected $persistenceEngine;
@@ -40,7 +40,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         $this->currentProject    = $params[AjaxKeys::PROJECT_TYPE];
         $this->projectSourceType = $params[AjaxKeys::PROJECT_SOURCE_TYPE];
         $this->projectOwner      = $params[AjaxKeys::PROJECT_OWNER];
-//        $this->projectTypeDir    = $params[AjaxKeys::PROJECT_TYPE_DIR];
+        $this->projectTypeDir    = $params[AjaxKeys::PROJECT_TYPE_DIR];
     }
 
     public function getProjectOwner() {
@@ -55,26 +55,18 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         return $this->currentProject;
     }
 
-    public function getProjectTypeDir($projectType=FALSE) {
-        $trobat=FALSE;
-        $projectTypeDir;
-        if(!$projectType){
-            $projectType = $this->getCurrentProject();
-        }
-        $projectPlugins = array_keys($this->tmp_projects);
-        for($ind=0; !$trobat && $ind<count($projectPlugins); $ind++){
-            $projectTypeDir = DOKU_PLUGIN. $projectPlugins[$ind]."/projects/".$projectType."/";
-            $trobat = file_exists($projectTypeDir."metadata/config/configMain.json");
-        }
-        if(!$trobat){
-            throw new UnknownPojectTypeException($projectType);
-        }
-        return $projectTypeDir;
+    public function getProjectTypeDir() {
+        return $this->projectTypeDir;
     }
 
     public function setPersistenceEngine($persistenceEngine) {
         $this->persistenceEngine = $persistenceEngine;
     }
+
+<<<<<<< HEAD
+    public function getCurrentProjectDataSource() {
+        if ($this->projectOwner && $this->persistenceEngine) {
+=======
 
     public function getProjectFile($projectOwner=NULL, $projectSourceType=NULL) {
         if(!$projectOwner){
@@ -98,39 +90,52 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         }
         
     }
+    
+    public function getCurrentProjectDataSource($projectOwner=NULL, $projectSourceType=NULL) {
+        if(!$projectOwner){
+            $projectOwner = $this->projectOwner;
+        }
+        if(!$projectSourceType){
+            $projectSourceType = $this->projectSourceType;
+        }
 
-    public function getCurrentProjectDataSource() {
-        if ($this->projectOwner && $this->persistenceEngine) {
+        if ($projectOwner && $this->persistenceEngine) {
 
+>>>>>>> master
             $model = new BasicWikiDataModel($this->persistenceEngine);
             $query = $model->getProjectMetaDataQuery();
+<<<<<<< HEAD
             $data = $query->getDataProject([ProjectKeys::KEY_ID => $this->projectOwner,
                                             ProjectKeys::KEY_PROJECT_TYPE => $this->projectSourceType,
-                                            ProjectKeys::KEY_PROJECTTYPE_DIR => $this->getProjectTypeDir($this->projectSourceType)
+                                            ProjectKeys::KEY_PROJECTTYPE_DIR => $this->getProjectTypeDir()
                                           ]);
+=======
+
+            $data = $query->getDataProject($projectOwner, $projectSourceType);
+
+>>>>>>> master
             return $data;
         }else {
             throw new Exception("Project or persistence not specified");
         }
     }
 
-    
-//JOSEP: AQUESTA FUCIÓ NO LA FA SERVIR NINGÚ
-//    /**
-//     * ALERTA[Xavi] Copiat fil per randa de ProjectExportAction.php
-//     *
-//     * Extrae, del contenido del fichero, los datos correspondientes a la clave
-//     * @param string $file : ruta completa al fichero de datos del proyecto
-//     * @param string $metaDataSubSet : clave del contenido
-//     * @return array conteniendo el array de la clave 'metadatasubset' con los datos del proyecto
-//     */
-//    private function getProjectDataFile($file, $metaDataSubSet) {
-//        $contentFile = @file_get_contents($file);
-//        if ($contentFile != false) {
-//            $contentArray = json_decode($contentFile, true);
-//            return $contentArray[$metaDataSubSet];
-//        }
-//    }
+
+    /**
+     * ALERTA[Xavi] Copiat fil per randa de ProjectExportAction.php
+     *
+     * Extrae, del contenido del fichero, los datos correspondientes a la clave
+     * @param string $file : ruta completa al fichero de datos del proyecto
+     * @param string $metaDataSubSet : clave del contenido
+     * @return array conteniendo el array de la clave 'metadatasubset' con los datos del proyecto
+     */
+    private function getProjectDataFile($file, $metaDataSubSet) {
+        $contentFile = @file_get_contents($file);
+        if ($contentFile != false) {
+            $contentArray = json_decode($contentFile, true);
+            return $contentArray[$metaDataSubSet];
+        }
+    }
 
     /**
      * Returns a list of available plugin components of given type
