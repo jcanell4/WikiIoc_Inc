@@ -13,6 +13,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     protected $last_local_config_file_project = '';
     protected $currentProject = '';
     protected $projectTypeDir = '';
+    protected $metaDataSubSet = '';
     protected $projectOwner = '';
     protected $projectSourceType= '';
     protected $persistenceEngine;
@@ -39,6 +40,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         $this->projectSourceType = $params[AjaxKeys::PROJECT_SOURCE_TYPE];
         $this->projectOwner      = $params[AjaxKeys::PROJECT_OWNER];
         $this->projectTypeDir    = $params[AjaxKeys::PROJECT_TYPE_DIR];
+        $this->metaDataSubSet    = $params[AjaxKeys::METADATA_SUBSET];
     }
 
     public function getCurrentProject() {
