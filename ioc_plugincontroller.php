@@ -13,12 +13,10 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     protected $last_local_config_file_project = '';
     protected $currentProject = '';
     protected $metaDataSubSet = '';
-//    protected $projectTypeDir = '';
     protected $projectOwner = '';
     protected $projectSourceType= '';
     protected $persistenceEngine;
     protected $modelManager;
-    protected $projectDataSubSet;
 
     /**
      * Populates the parent master list of plugins and add projects
@@ -26,7 +24,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     public function __construct() {
         parent::__construct();
         $this->_populateMasterListProjects();
-        $this->projectDataSubSet = ProjectKeys::VAL_DEFAULTSUBSET;
+        $this->metaDataSubSet = ProjectKeys::VAL_DEFAULTSUBSET;
     }
     public function getList($type='', $all=false) {
         $parenListByType = parent::getList($type, $all);    // request the complete plugin list
@@ -37,11 +35,18 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             $this->list_byProjectType[$type]['disabled'] = $this->_getListByProjectType($type,false);
         return $all ? array_merge($parenListByType,$this->list_byProjectType[$type]['enabled'],$this->list_byProjectType[$type]['disabled']) : array_merge($parenListByType,$this->list_byProjectType[$type]['enabled']);
     }
+    
     public function setCurrentProject($params) {
-        $this->currentProject    = $params[AjaxKeys::PROJECT_TYPE];
+        if(isset($params[AjaxKeys::PROJECT_TYPE])){
+            $this->currentProject = $params[AjaxKeys::PROJECT_TYPE];
+        }else{
+            $this->currentProject = AjaxKeys::VAL_DEFAULTPROJECTTYPE;
+        }
         $this->projectSourceType = $params[AjaxKeys::PROJECT_SOURCE_TYPE];
         $this->projectOwner      = $params[AjaxKeys::PROJECT_OWNER];
-        $this->metaDataSubSet    = $params[AjaxKeys::METADATA_SUBSET];
+        if(isset( $params[AjaxKeys::METADATA_SUBSET])){
+            $this->metaDataSubSet    = $params[AjaxKeys::METADATA_SUBSET];
+        }
 //        $this->projectTypeDir    = $params[AjaxKeys::PROJECT_TYPE_DIR];
     }
 
@@ -90,8 +95,8 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
 
             $model = new BasicWikiDataModel($this->persistenceEngine);
             $query = $model->getProjectMetaDataQuery();
-
-            $param = array(ProjectKeys::KEY_PROJECT_TYPE => $projectSourceType, ProjectKeys::KEY_METADATA_SUBSET=> $this->projectDataSubSet);
+            $query->init($projectOwner, $this->metaDataSubSet, $projectSourceType);
+//            $param = array(ProjectKeys::KEY_PROJECT_TYPE => $projectSourceType, ProjectKeys::KEY_METADATA_SUBSET=> $this->metaDataSubSet);
             $data = $query->getFileName($projectOwner, $param);
 
             return $data;
@@ -106,10 +111,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
 
             $model = new BasicWikiDataModel($this->persistenceEngine);
             $query = $model->getProjectMetaDataQuery();
-            $data = $query->getDataProject([ProjectKeys::KEY_ID => $this->projectOwner,
-                                            ProjectKeys::KEY_PROJECT_TYPE => $this->projectSourceType,
-                                            ProjectKeys::KEY_PROJECTTYPE_DIR => $this->getProjectTypeDir($this->projectSourceType)
-                                          ]);
+            $data = $query->init($this->projectOwner, $this->metaDataSubSet,  $this->projectSourceType)->getDataProject();
             return $data;
         }else {
             throw new Exception("Project or persistence not specified");

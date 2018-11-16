@@ -25,23 +25,30 @@ function ioc_project_autoload($name) {
         if (!$type_class || !$arr_dir_class) return;
 
         $existDokuModelManager = class_exists('DokuModelManager', FALSE);
-        if ($existDokuModelManager) {
-            $projectDir = DokuModelManager::getProjectTypeDir();
-        }else {
-            $dokuModelManager = $plugin_controller->getProjectTypeDir($plugin_controller->getCurrentProject());
+        $projectDir = $plugin_controller->getProjectTypeDir($plugin_controller->getCurrentProject());
+        
+        if (!$existDokuModelManager) {
+            include_once $projectDir.DOKUMODELMANAGER;
         }
-
-        // En el DokuModelManager de cada proyecto se establecen las rutas a las clases que necesita el proyecto
-        if ($existDokuModelManager) {
-            if ($dokuModelManager)
-                include_once $dokuModelManager;
-            if (is_null($defClasssProj)) {
-                $defClasssProj = DokuModelManager::getDefaultMainClass();
-            }
-        }
+        
+        if (is_null($defClasssProj)) {
+           $defClasssProj = DokuModelManager::getDefaultMainClass();
+        }            
         if (is_null($defClasses)) {
             $defClasses = getMainClass($projectDir);
         }
+
+//        // En el DokuModelManager de cada proyecto se establecen las rutas a las clases que necesita el proyecto
+//        if ($existDokuModelManager) {
+//            if ($dokuModelManager)
+//                include_once $dokuModelManager;
+//            if (is_null($defClasssProj)) {
+//                $defClasssProj = DokuModelManager::getDefaultMainClass();
+//            }
+//        }
+//        if (is_null($defClasses)) {
+//            $defClasses = getMainClass($projectDir);
+//        }
 
         //Aquí se averigua (y, en su caso, se carga) si se ha solicitado una Clase principal
         if (isset($defClasssProj[$name]) &&
