@@ -106,12 +106,21 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
 
     }
 
-    public function getCurrentProjectDataSource() {
-        if ($this->projectOwner && $this->persistenceEngine) {
+    public function getCurrentProjectDataSource($projectOwner=FALSE, $projectSourceType=FALSE, $subset=FALSE) {
+        if(!$projectOwner){
+            $projectOwner = $this->projectOwner;
+        }
+        if(!$projectSourceType){
+            $projectSourceType = $this->projectSourceType;
+        }
+        if(!$subset){
+            $subset = $this->metaDataSubSet;
+        }
+        if ($projectOwner && $this->persistenceEngine) {
 
             $model = new BasicWikiDataModel($this->persistenceEngine);
             $query = $model->getProjectMetaDataQuery();
-            $data = $query->init($this->projectOwner, $this->metaDataSubSet,  $this->projectSourceType)->getDataProject();
+            $data = $query->init($projectOwner, $subset,  $projectSourceType)->getDataProject();
             return $data;
         }else {
             throw new Exception("Project or persistence not specified");
