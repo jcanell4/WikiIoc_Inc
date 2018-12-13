@@ -35,7 +35,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             $this->list_byProjectType[$type]['disabled'] = $this->_getListByProjectType($type,false);
         return $all ? array_merge($parenListByType,$this->list_byProjectType[$type]['enabled'],$this->list_byProjectType[$type]['disabled']) : array_merge($parenListByType,$this->list_byProjectType[$type]['enabled']);
     }
-    
+
     public function setCurrentProject($params) {
         if(isset($params[AjaxKeys::PROJECT_TYPE])){
             $this->currentProject = $params[AjaxKeys::PROJECT_TYPE];
@@ -92,18 +92,15 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         }
 
         if ($projectOwner && $this->persistenceEngine) {
-
             $model = new BasicWikiDataModel($this->persistenceEngine);
             $query = $model->getProjectMetaDataQuery();
             $query->init($projectOwner, $this->metaDataSubSet, $projectSourceType);
 //            $param = array(ProjectKeys::KEY_PROJECT_TYPE => $projectSourceType, ProjectKeys::KEY_METADATA_SUBSET=> $this->metaDataSubSet);
             $data = $query->getFileName($projectOwner, $param);
-
-            return $data;
         } else {
             throw new Exception("Project or persistence not specified");
         }
-
+        return $data;
     }
 
     public function getCurrentProjectDataSource($projectOwner=FALSE, $projectSourceType=FALSE, $subset=FALSE) {
