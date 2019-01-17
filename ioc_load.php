@@ -54,18 +54,19 @@ function ioc_autoload($name) {
             'AbstractPermission'           => DOKU_LIB_IOC.'wikiiocmodel/AbstractPermission.php',
             'AuthorizationKeys'            => DOKU_LIB_IOC.'wikiiocmodel/AuthorizationKeys.php',
 
-            'AbstractModelManager'  => DOKU_LIB_IOC.'wikiiocmodel/AbstractModelManager.php',
-            'WikiIocInfoManager'    => DOKU_LIB_IOC.'wikiiocmodel/WikiIocInfoManager.php',
-            'WikiIocLangManager'    => DOKU_LIB_IOC.'wikiiocmodel/WikiIocLangManager.php',
-            'WikiIocModelException' => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php',
-            'WikiIocModelManager'   => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelManager.php',
+            'AbstractModelManager'   => DOKU_LIB_IOC.'wikiiocmodel/AbstractModelManager.php',
+            'WikiIocInfoManager'     => DOKU_LIB_IOC.'wikiiocmodel/WikiIocInfoManager.php',
+            'WikiIocLangManager'     => DOKU_LIB_IOC.'wikiiocmodel/WikiIocLangManager.php',
+            'WikiIocModelException'  => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php',
+            'WikiIocModelManager'    => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelManager.php',
+            'WikiIocPluginController'=> DOKU_LIB_IOC.'wikiiocmodel/WikiIocPluginController.php',
 
             'ResourceLocker'            => DOKU_LIB_IOC.'wikiiocmodel/ResourceLocker.php',
             'ResourceLockerInterface'   => DOKU_LIB_IOC.'wikiiocmodel/ResourceLockerInterface.php',
             'ResourceUnlockerInterface' => DOKU_LIB_IOC.'wikiiocmodel/ResourceUnlockerInterface.php',
 
             'AbstractProjectModel'   => DOKU_LIB_IOC.'wikiiocmodel/datamodel/AbstractProjectModel.php',
-            
+
             'AdminKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/AdminKeys.php',
             'AjaxKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/AjaxKeys.php',
             'GlobalKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/GlobalKeys.php',
