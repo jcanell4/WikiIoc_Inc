@@ -49,6 +49,8 @@ function ioc_autoload($name) {
             'BasicPermission'   => DOKU_PLUGIN.'wikiiocmodel/authorization/BasicPermission.php',
             'ProjectPermission' => DOKU_PLUGIN.'wikiiocmodel/authorization/ProjectPermission.php',
 
+            'UpgradeManager' => DOKU_LIB_IOC.'upgrader/UpgradeManager.php',
+
             'AbstractActionManager'        => DOKU_LIB_IOC.'wikiiocmodel/AbstractActionManager.php',
             'AbstractCommandAuthorization' => DOKU_LIB_IOC.'wikiiocmodel/AbstractCommandAuthorization.php',
             'AbstractPermission'           => DOKU_LIB_IOC.'wikiiocmodel/AbstractPermission.php',
@@ -67,16 +69,16 @@ function ioc_autoload($name) {
 
             'AbstractProjectModel'   => DOKU_LIB_IOC.'wikiiocmodel/datamodel/AbstractProjectModel.php',
 
-            'AdminKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/AdminKeys.php',
-            'AjaxKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/AjaxKeys.php',
-            'GlobalKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/GlobalKeys.php',
-            'LockKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/LockKeys.php',
-            'MediaKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/MediaKeys.php',
-            'PageKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/PageKeys.php',
-            'ProjectKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/ProjectKeys.php',
-            'RequestParameterKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/RequestParameterKeys.php',
-            'ResponseHandlerKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/ResponseHandlerKeys.php',
-            'UserStateKeys'   => DOKU_PLUGIN.'ajaxcommand/defkeys/UserStateKeys.php',
+            'AdminKeys'            => DOKU_PLUGIN.'ajaxcommand/defkeys/AdminKeys.php',
+            'AjaxKeys'             => DOKU_PLUGIN.'ajaxcommand/defkeys/AjaxKeys.php',
+            'GlobalKeys'           => DOKU_PLUGIN.'ajaxcommand/defkeys/GlobalKeys.php',
+            'LockKeys'             => DOKU_PLUGIN.'ajaxcommand/defkeys/LockKeys.php',
+            'MediaKeys'            => DOKU_PLUGIN.'ajaxcommand/defkeys/MediaKeys.php',
+            'PageKeys'             => DOKU_PLUGIN.'ajaxcommand/defkeys/PageKeys.php',
+            'ProjectKeys'          => DOKU_PLUGIN.'ajaxcommand/defkeys/ProjectKeys.php',
+            'RequestParameterKeys' => DOKU_PLUGIN.'ajaxcommand/defkeys/RequestParameterKeys.php',
+            'ResponseHandlerKeys'  => DOKU_PLUGIN.'ajaxcommand/defkeys/ResponseHandlerKeys.php',
+            'UserStateKeys'        => DOKU_PLUGIN.'ajaxcommand/defkeys/UserStateKeys.php',
         );
     }
 
