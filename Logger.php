@@ -25,7 +25,7 @@ class Logger {
         if(self::$fileName===NULL){
             $debugFile = DOKU_INC.'lib/plugins/tmp/debug.log';
         }else{
-            $debugFile = self::$fileName;
+            $debugFile = DOKU_INC.'lib/plugins/tmp/'.self::$fileName;
         }
         msg($message, $err, $line, $file);
         $tag = ($err===0) ? "Info" : "Error($err): ";
