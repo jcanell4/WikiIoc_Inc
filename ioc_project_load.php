@@ -26,14 +26,14 @@ function ioc_project_autoload($name) {
 
         $existDokuModelManager = class_exists('DokuModelManager', FALSE);
         $projectDir = $plugin_controller->getProjectTypeDir($plugin_controller->getCurrentProject());
-        
+
         if (!$existDokuModelManager) {
             include_once $projectDir.DOKUMODELMANAGER;
         }
-        
+
         if (is_null($defClasssProj)) {
            $defClasssProj = DokuModelManager::getDefaultMainClass();
-        }            
+        }
         if (is_null($defClasses)) {
             $defClasses = getMainClass($projectDir);
         }
@@ -121,6 +121,9 @@ function getDirClass($name) {
                        )
            ,"Exporter" => array (
                            "exporter/"
+                       )
+           ,"Upgrader" => array (
+                           "upgrader/"
                        )
           );
    return $cfg[$name];

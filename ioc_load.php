@@ -79,7 +79,7 @@ function ioc_autoload($name) {
             'RequestParameterKeys' => DOKU_PLUGIN.'ajaxcommand/defkeys/RequestParameterKeys.php',
             'ResponseHandlerKeys'  => DOKU_PLUGIN.'ajaxcommand/defkeys/ResponseHandlerKeys.php',
             'UserStateKeys'        => DOKU_PLUGIN.'ajaxcommand/defkeys/UserStateKeys.php',
-            
+
             'Logger'               => DOKU_INC.'inc/inc_ioc/Logger.php',
         );
     }
