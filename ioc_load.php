@@ -110,6 +110,11 @@ function ioc_autoload($name) {
         return;
     }
 
+    if (preg_match('/^Calculate.*$/', $name)) {
+        require_once(DOKU_LIB_IOC.'common/utility/'.$name.'.php');
+        return;
+    }
+
     if (preg_match('/Wioccl.*$/', $name)) {
         require_once(DOKU_LIB_IOC.'wioccl/'.$name.'.php');
         return;
