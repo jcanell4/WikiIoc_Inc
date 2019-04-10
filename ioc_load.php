@@ -136,6 +136,9 @@ function ioc_autoload($name) {
                      '('.DOKU_PLUGIN_NAME_REGEX.')_projects_('.DOKU_PLUGIN_NAME_REGEX.')(?:_([^_]+))?$/',
                     $name, $m)) {
         // try to load the wanted class file
+
+        $currrentProject = $plugin_controller->getCurrentProject();
+
         if (count($m) >= 4 && $plugin_controller->getCurrentProject() !== $m[3]) {
             echo 'el nom del projecte no coincideix';
         }else {
