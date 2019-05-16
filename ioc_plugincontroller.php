@@ -50,16 +50,30 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
 //        $this->projectTypeDir    = $params[AjaxKeys::PROJECT_TYPE_DIR];
     }
 
+    // id del projecte quan el call prové des d'un document que pertany a un projecte
     public function getProjectOwner() {
         return $this->projectOwner;
     }
 
+    // tipus de projecte quan el call prové d'un document que pertany a un projecte
     public function getProjectSourceType() {
         return $this->projectSourceType;
     }
 
+    // Tipus de projecte quan el call prové del formulari
     public function getCurrentProject() {
         return $this->currentProject;
+    }
+
+    // Tipus de projecte independentment del call
+    public function getProjectType() {
+        $projectSourceType = $this->getProjectSourceType();
+
+        if (strlen($projectSourceType)>0) {
+            return $projectSourceType;
+        } else {
+            return $this->getCurrentProject();
+        }
     }
 
     public function getProjectTypeDir($projectType=FALSE) {
@@ -177,8 +191,16 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
      * @return string directory name of plugin
      */
     private function _get_directory_project($plugin) {
-        return "$plugin/projects/{$this->getCurrentProject()}";
+        // ALERTA! [Xavi] Comprovem si existeix el SourceType per carregar correctament els plugins corresponents a la
+        // sintaxi dintre de projectes. En aquest cas es fa servir el projectSourceType ja que el currentProject és
+        // default.
+
+        $projectType = $this->getProjectType();
+
+        return "$plugin/projects/" . $projectType;
     }
+
+
 
     private function _nameTransform($name) {
         //return str_replace('/', '_', str_replace('/projects/', '~', $name));

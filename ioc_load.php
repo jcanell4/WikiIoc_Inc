@@ -139,7 +139,13 @@ function ioc_autoload($name) {
 
         $currrentProject = $plugin_controller->getCurrentProject();
 
-        if (count($m) >= 4 && $plugin_controller->getCurrentProject() !== $m[3]) {
+        // ALERTA! [Xavi] Comprovem si existeix el SourceType per carregar correctament els plugins corresponents a la
+        // sintaxi dintre de projectes. En aquest cas es fa servir el projectSourceType ja que el currentProject és
+        // default.
+
+        $checkToken = $plugin_controller->getProjectType();
+
+        if (count($m) >= 4 && $checkToken !== $m[3]) {
             echo 'el nom del projecte no coincideix';
         }else {
             $c = ((count($m) === 5) ? "/{$m[4]}" : '');
