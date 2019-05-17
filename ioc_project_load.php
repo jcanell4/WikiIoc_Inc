@@ -147,12 +147,14 @@ function splitCamelCase($name, $elem, $c=1) {
             $ret[] = substr($name, $p, 1) . $v;
         }
     }
-    if ($elem === "last") {
-        $valor = $ret[count($ret)-1];
-    }else {
-        $valor = "";
-        for ($i=0; $i<$c; $i++) {
-            $valor .= $ret[$i];
+    if ($ret) {
+        if ($elem === "last") {
+            $valor = $ret[count($ret)-1];
+        }else {
+            $valor = "";
+            for ($i=0; $i<$c; $i++) {
+                $valor .= $ret[$i];
+            }
         }
     }
     return $valor;
