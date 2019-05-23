@@ -18831,10 +18831,13 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 						$findroot = strpos($imgsrc, $_SERVER['DOCUMENT_ROOT']);
 						if (($findroot === false) OR ($findroot > 1)) {
 							if (substr($_SERVER['DOCUMENT_ROOT'], -1) == '/') {
-								$imgsrc = substr($_SERVER['DOCUMENT_ROOT'], 0, -1).$imgsrc;
+								$imgsrc_aux = substr($_SERVER['DOCUMENT_ROOT'], 0, -1).$imgsrc;
 							} else {
-								$imgsrc = $_SERVER['DOCUMENT_ROOT'].$imgsrc;
+								$imgsrc_aux = $_SERVER['DOCUMENT_ROOT'].$imgsrc;
 							}
+                                                        if(file_exists($imgsrc_aux)){
+                                                            $imgsrc = $imgsrc_aux;
+                                                        }
 						}
 						$imgsrc = urldecode($imgsrc);
 						$testscrtype = @parse_url($imgsrc);
