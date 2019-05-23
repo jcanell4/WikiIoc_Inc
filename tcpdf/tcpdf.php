@@ -18830,6 +18830,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 						// fix image path
 						$findroot = strpos($imgsrc, $_SERVER['DOCUMENT_ROOT']);
 						if (($findroot === false) OR ($findroot > 1)) {
+                                                    //Changed by IOC to fixe error when image path is an absolute path out of server path
 							if (substr($_SERVER['DOCUMENT_ROOT'], -1) == '/') {
 								$imgsrc_aux = substr($_SERVER['DOCUMENT_ROOT'], 0, -1).$imgsrc;
 							} else {
