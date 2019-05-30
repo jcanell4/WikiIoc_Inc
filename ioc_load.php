@@ -69,6 +69,8 @@ function ioc_autoload($name) {
 
             'AbstractProjectModel'   => DOKU_LIB_IOC.'wikiiocmodel/datamodel/AbstractProjectModel.php',
 
+            'ResultsWithFiles'              => DOKU_LIB_IOC.'wikiiocmodel/ResultsWithFiles.php',
+            
             'AdminKeys'            => DOKU_PLUGIN.'ajaxcommand/defkeys/AdminKeys.php',
             'AjaxKeys'             => DOKU_PLUGIN.'ajaxcommand/defkeys/AjaxKeys.php',
             'GlobalKeys'           => DOKU_PLUGIN.'ajaxcommand/defkeys/GlobalKeys.php',
