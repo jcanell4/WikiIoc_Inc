@@ -15,6 +15,10 @@ function ioc_project_autoload($name) {
     static $defClasses = null;
     static $defClasssProj = null;
 
+    if (substr($name, 0, 9) == "dokuwiki\\") {
+        return false;
+    }
+
     /*
      * Carga, si existen, las clases por defecto definidas en el proyecto.
      */

@@ -19,6 +19,10 @@ function ioc_autoload($name) {
     global $plugin_controller;
     static $classes = null;
 
+    if (substr($name, 0, 9) == "dokuwiki\\") {
+        return false;
+    }
+
     if (is_null($classes)) {
         $classes = array(
             'Ioc_Plugin_Controller'  => DOKU_INC.'inc/inc_ioc/ioc_plugincontroller.php',
@@ -70,7 +74,7 @@ function ioc_autoload($name) {
             'AbstractProjectModel'   => DOKU_LIB_IOC.'wikiiocmodel/datamodel/AbstractProjectModel.php',
 
             'ResultsWithFiles'              => DOKU_LIB_IOC.'wikiiocmodel/ResultsWithFiles.php',
-            
+
             'AdminKeys'            => DOKU_PLUGIN.'ajaxcommand/defkeys/AdminKeys.php',
             'AjaxKeys'             => DOKU_PLUGIN.'ajaxcommand/defkeys/AjaxKeys.php',
             'GlobalKeys'           => DOKU_PLUGIN.'ajaxcommand/defkeys/GlobalKeys.php',
