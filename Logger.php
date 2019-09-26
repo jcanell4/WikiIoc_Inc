@@ -8,11 +8,11 @@ if(!defined('DOKU_INC')) die();
  * @author josep
  */
 class Logger {
-    private static $fileAppend=FALSE;
+    private static $fileAppend=TRUE;
     private static $fileName;
     private static $debugLevel=0;
 
-    public static function init($debugLevel=0, $filename=NULL, $fileAppend=FALSE) {
+    public static function init($debugLevel=0, $filename=NULL, $fileAppend=TRUE) {
         self::$debugLevel=$debugLevel;
         self::$fileName = $filename;
         self::$fileAppend = $fileAppend;
