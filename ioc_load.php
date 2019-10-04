@@ -132,7 +132,7 @@ function ioc_autoload($name) {
     }
 
     if (preg_match('/Html2DW.*$/', $name)) {
-        require_once(DOKU_LIB_IOC.'translators/html_to_wiki/'.$name.'.php');
+        require_once(DOKU_LIB_IOC.'translators/html2DW/'.$name.'.php');
         return;
     }
 
