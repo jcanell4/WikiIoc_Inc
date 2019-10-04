@@ -131,6 +131,12 @@ function ioc_autoload($name) {
         return;
     }
 
+    if (preg_match('/Html2DW.*$/', $name)) {
+        require_once(DOKU_LIB_IOC.'translators/html_to_wiki/'.$name.'.php');
+        return;
+    }
+
+
     /*
      * El nombre de la clase buscada debe ser:
      * - si la clase está en un fichero llamado <tipo>.php:
