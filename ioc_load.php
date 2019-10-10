@@ -134,6 +134,11 @@ function ioc_autoload($name) {
         return;
     }
 
+    if (preg_match('/DW2Html.*$/', $name)) {
+        require_once(DOKU_LIB_IOC.'translators/DW2html/'.$name.'.php');
+        return;
+    }
+
 
     /*
      * El nombre de la clase buscada debe ser:
