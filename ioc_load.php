@@ -104,6 +104,14 @@ function ioc_autoload($name) {
         return;
     }
 
+    if (preg_match('/.*WsMoodle/', $name)) {
+        require_once(DOKU_LIB_IOC.'webservice/WsMoodleClient.php');
+        if(@file_exists(DOKU_LIB_IOC.'webservice/'.$name.'php')){
+            require_once(DOKU_LIB_IOC.'webservice/'.$name.'php');
+        }
+        return;
+    }
+
     if (preg_match('/.*ProjectUpdateProcessor$/', $name)) {
         require_once(DOKU_LIB_IOC.'wikiiocmodel/ProjectUpdateProcessor.php');
         return;
