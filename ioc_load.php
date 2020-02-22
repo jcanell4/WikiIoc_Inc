@@ -67,6 +67,8 @@ function ioc_autoload($name) {
             'WikiIocModelException'        => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php',
             'WikiIocModelManager'          => DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelManager.php',
             'WikiIocPluginController'      => DOKU_LIB_IOC.'wikiiocmodel/WikiIocPluginController.php',
+            'WikiIocPluginAction'          => DOKU_LIB_IOC.'wikiiocmodel/WikiIocPluginAction.php',
+            'WikiIocProjectPluginAction'   => DOKU_LIB_IOC.'wikiiocmodel/WikiIocProjectPluginAction.php',
 
             'ResourceLocker'            => DOKU_LIB_IOC.'wikiiocmodel/ResourceLocker.php',
             'ResourceLockerInterface'   => DOKU_LIB_IOC.'wikiiocmodel/ResourceLockerInterface.php',
