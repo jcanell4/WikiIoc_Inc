@@ -124,7 +124,7 @@ function ioc_autoload($name) {
         return;
     }
 
-    if (preg_match('/^Calculate.*$/', $name)) {
+    if (preg_match('/^I?Calculate.*$/', $name)) {
         require_once(DOKU_LIB_IOC.'common/utility/'.$name.'.php');
         return;
     }

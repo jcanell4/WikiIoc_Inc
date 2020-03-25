@@ -92,6 +92,10 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         }
         return $projectTypeDir;
     }
+    
+    public function getPersistenceEngine(){
+        return $this->persistenceEngine;
+    }
 
     public function setPersistenceEngine($persistenceEngine) {
         $this->persistenceEngine = $persistenceEngine;
