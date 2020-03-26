@@ -87,6 +87,12 @@ function ioc_autoload($name) {
             'UserStateKeys'        => DOKU_PLUGIN.'ajaxcommand/defkeys/UserStateKeys.php',
 
             'Logger'               => DOKU_INC.'inc/inc_ioc/Logger.php',
+
+            'BasicPersistenceEngine' => DOKU_LIB_IOC.'wikiiocmodel/persistence/BasicPersistenceEngine.php',
+            'DataQuery'              => DOKU_LIB_IOC.'wikiiocmodel/persistence/DataQuery.php',
+            'LockDataQuery'          => DOKU_LIB_IOC.'wikiiocmodel/persistence/LockDataQuery.php',
+            'NotifyDataQuery'        => DOKU_LIB_IOC.'wikiiocmodel/persistence/NotifyDataQuery.php',
+            'WikiPageSystemManager'  => DOKU_LIB_IOC.'wikiiocmodel/persistence/WikiPageSystemManager.php'
         );
     }
 
