@@ -92,7 +92,12 @@ function ioc_autoload($name) {
             'DataQuery'              => DOKU_LIB_IOC.'wikiiocmodel/persistence/DataQuery.php',
             'LockDataQuery'          => DOKU_LIB_IOC.'wikiiocmodel/persistence/LockDataQuery.php',
             'NotifyDataQuery'        => DOKU_LIB_IOC.'wikiiocmodel/persistence/NotifyDataQuery.php',
-            'WikiPageSystemManager'  => DOKU_LIB_IOC.'wikiiocmodel/persistence/WikiPageSystemManager.php'
+            'WikiPageSystemManager'  => DOKU_LIB_IOC.'wikiiocmodel/persistence/WikiPageSystemManager.php',
+
+            'AbstractRenderer'     => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicExporterClasses.php',
+            'BasicRenderObject'    => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicExporterClasses.php',
+            'BasicFactoryExporter' => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicFactoryExporter.php'
+
         );
     }
 
