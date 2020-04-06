@@ -51,8 +51,6 @@ function ioc_autoload($name) {
             'WikiGlobalConfig'  => DOKU_PLUGIN.'ownInit/WikiGlobalConfig.php',
 
             'MetaDataService'   => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',
-            'BasicPermission'   => DOKU_PLUGIN.'wikiiocmodel/authorization/BasicPermission.php',
-            'ProjectPermission' => DOKU_PLUGIN.'wikiiocmodel/authorization/ProjectPermission.php',
 
             'UpgradeManager' => DOKU_LIB_IOC.'upgrader/UpgradeManager.php',
 
@@ -96,14 +94,24 @@ function ioc_autoload($name) {
 
             'AbstractRenderer'     => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicExporterClasses.php',
             'BasicRenderObject'    => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicExporterClasses.php',
-            'BasicFactoryExporter' => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicFactoryExporter.php'
+            'BasicFactoryExporter' => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicFactoryExporter.php',
 
+            'BasicPermission'      => DOKU_LIB_IOC.'wikiiocmodel/authorization/BasicPermission.php',
+            'ProjectPermission'    => DOKU_LIB_IOC.'wikiiocmodel/authorization/ProjectPermission.php',
         );
     }
 
     if (isset($classes[$name])) {
         require_once($classes[$name]);
         return;
+    }
+
+    $matches = [];
+    if (preg_match('/(.*)(Authorization)$/', $name, $matches)) {
+        if (is_file(DOKU_LIB_IOC."wikiiocmodel/authorization/{$matches[0]}.php")) {
+            require_once(DOKU_LIB_IOC."wikiiocmodel/authorization/{$matches[0]}.php");
+            return;
+        }
     }
 
     if (preg_match('/.*Exception$/', $name)) {
