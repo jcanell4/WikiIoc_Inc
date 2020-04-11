@@ -105,7 +105,6 @@ function ioc_autoload($name) {
         require_once($classes[$name]);
         return;
     }
-
     $matches = [];
     if (preg_match('/(.*)(Authorization)$/', $name, $matches)) {
         if (is_file(DOKU_LIB_IOC."wikiiocmodel/authorization/{$matches[0]}.php")) {
@@ -113,6 +112,14 @@ function ioc_autoload($name) {
             return;
         }
     }
+
+    if (preg_match('/(.*)(Model)$/', $name, $matches)) {
+        if (is_file(DOKU_LIB_IOC."wikiiocmodel/datamodel/{$matches[0]}.php")) {
+            require_once(DOKU_LIB_IOC."wikiiocmodel/datamodel/{$matches[0]}.php");
+            return;
+        }
+    }
+
 
     if (preg_match('/.*Exception$/', $name)) {
         require_once(DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php');
