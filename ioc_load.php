@@ -73,17 +73,6 @@ function ioc_autoload($name) {
             'ResourceUnlockerInterface' => DOKU_LIB_IOC.'wikiiocmodel/ResourceUnlockerInterface.php',
             'ResultsWithFiles'          => DOKU_LIB_IOC.'wikiiocmodel/ResultsWithFiles.php',
 
-            'AdminKeys'            => DOKU_PLUGIN.'ajaxcommand/defkeys/AdminKeys.php',
-            'AjaxKeys'             => DOKU_PLUGIN.'ajaxcommand/defkeys/AjaxKeys.php',
-            'GlobalKeys'           => DOKU_PLUGIN.'ajaxcommand/defkeys/GlobalKeys.php',
-            'LockKeys'             => DOKU_PLUGIN.'ajaxcommand/defkeys/LockKeys.php',
-            'MediaKeys'            => DOKU_PLUGIN.'ajaxcommand/defkeys/MediaKeys.php',
-            'PageKeys'             => DOKU_PLUGIN.'ajaxcommand/defkeys/PageKeys.php',
-            'ProjectKeys'          => DOKU_PLUGIN.'ajaxcommand/defkeys/ProjectKeys.php',
-            'RequestParameterKeys' => DOKU_PLUGIN.'ajaxcommand/defkeys/RequestParameterKeys.php',
-            'ResponseHandlerKeys'  => DOKU_PLUGIN.'ajaxcommand/defkeys/ResponseHandlerKeys.php',
-            'UserStateKeys'        => DOKU_PLUGIN.'ajaxcommand/defkeys/UserStateKeys.php',
-
             'Logger'               => DOKU_INC.'inc/inc_ioc/Logger.php',
 
             'BasicPersistenceEngine' => DOKU_LIB_IOC.'wikiiocmodel/persistence/BasicPersistenceEngine.php',
@@ -120,6 +109,12 @@ function ioc_autoload($name) {
         }
     }
 
+    if (preg_match('/(.*)(Keys)$/', $name, $matches)) {
+        if (is_file(DOKU_PLUGIN."ajaxcommand/defkeys/{$matches[0]}.php")) {
+            require_once(DOKU_PLUGIN."ajaxcommand/defkeys/{$matches[0]}.php");
+            return;
+        }
+    }
 
     if (preg_match('/.*Exception$/', $name)) {
         require_once(DOKU_LIB_IOC.'wikiiocmodel/WikiIocModelExceptions.php');
@@ -186,14 +181,9 @@ function ioc_autoload($name) {
     if (preg_match('/^(auth|command|helper|syntax|action|admin|renderer|remote)_plugin_'.
                      '('.DOKU_PLUGIN_NAME_REGEX.')_projects_('.DOKU_PLUGIN_NAME_REGEX.')(?:_([^_]+))?$/',
                     $name, $m)) {
-        // try to load the wanted class file
-
-        $currrentProject = $plugin_controller->getCurrentProject();
-
         // ALERTA! [Xavi] Comprovem si existeix el SourceType per carregar correctament els plugins corresponents a la
         // sintaxi dintre de projectes. En aquest cas es fa servir el projectSourceType ja que el currentProject és
         // default.
-
         $checkToken = $plugin_controller->getProjectType();
 
         if (count($m) >= 4 && $checkToken !== $m[3]) {
