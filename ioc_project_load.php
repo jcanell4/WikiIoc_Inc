@@ -4,6 +4,7 @@
  * @culpable Rafael Claver
  */
 if (!defined('DOKU_INC')) define('DOKU_INC', fullpath(realpath(dirname(__FILE__) . "/../../")) . "/");
+if (!defined('DOKU_LIB_IOC')) define('DOKU_LIB_IOC', DOKU_INC.'lib/lib_ioc/');
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . "lib/plugins/");
 if (!defined('WIKI_IOC_MODEL')) define('WIKI_IOC_MODEL', DOKU_PLUGIN . "wikiiocmodel/");
 define('DOKUMODELMANAGER', "DokuModelManager.php");
@@ -42,17 +43,18 @@ function ioc_project_autoload($name) {
             $defClasses = getMainClass($projectDir);
         }
 
-//        // En el DokuModelManager de cada proyecto se establecen las rutas a las clases que necesita el proyecto
-//        if ($existDokuModelManager) {
-//            if ($dokuModelManager)
-//                include_once $dokuModelManager;
-//            if (is_null($defClasssProj)) {
-//                $defClasssProj = DokuModelManager::getDefaultMainClass();
-//            }
-//        }
-//        if (is_null($defClasses)) {
-//            $defClasses = getMainClass($projectDir);
-//        }
+        /*
+        // En el DokuModelManager de cada proyecto se establecen las rutas a las clases que necesita el proyecto
+        if ($existDokuModelManager) {
+            if ($dokuModelManager)
+                include_once $dokuModelManager;
+            if (is_null($defClasssProj)) {
+                $defClasssProj = DokuModelManager::getDefaultMainClass();
+            }
+        }
+        if (is_null($defClasses)) {
+            $defClasses = getMainClass($projectDir);
+        }*/
 
         //Aquí se averigua (y, en su caso, se carga) si se ha solicitado una Clase principal
         if (isset($defClasssProj[$name]) &&
@@ -95,6 +97,15 @@ function ioc_project_autoload($name) {
                 }
             }
         }
+
+        $matches = [];
+        if (preg_match('/(.*)(Authorization)$/', $name, $matches)) {
+            if (is_file(DOKU_LIB_IOC."wikiiocmodel/authorization/{$matches[0]}.php")) {
+                require_once(DOKU_LIB_IOC."wikiiocmodel/authorization/{$matches[0]}.php");
+                return;
+            }
+        }
+
         //Si todavía no la encuentra, buscará la clase en las rutas de la raíz WIKI_IOC_MODEL
         foreach ($arr_dir_class as $dir) {
             $class_file = WIKI_IOC_MODEL.$dir.$name.".php";

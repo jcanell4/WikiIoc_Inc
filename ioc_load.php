@@ -33,7 +33,10 @@ function ioc_autoload($name) {
             'DokuWiki_Remote_Plugin' => DOKU_PLUGIN.'remote.php',
             'DokuWiki_Auth_Plugin'   => DOKU_PLUGIN.'auth.php',
 
-            'IocCommon'                     => DOKU_LIB_IOC.'common/IocCommon.php',
+            'IocCommon'         => DOKU_LIB_IOC.'common/IocCommon.php',
+            'AbstractCalculate' => DOKU_LIB_IOC.'common/utility/AbstractCalculate.php',
+            'AbstractValidate'  => DOKU_LIB_IOC.'common/utility/AbstractValidate.php',
+
             'ajaxCall'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
             'ajaxRest'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
             'AbstractResponseHandler'       => DOKU_LIB_IOC.'ajaxcommand/AbstractResponseHandler.php',
@@ -94,14 +97,8 @@ function ioc_autoload($name) {
         require_once($classes[$name]);
         return;
     }
-    $matches = [];
-    if (preg_match('/(.*)(Authorization)$/', $name, $matches)) {
-        if (is_file(DOKU_LIB_IOC."wikiiocmodel/authorization/{$matches[0]}.php")) {
-            require_once(DOKU_LIB_IOC."wikiiocmodel/authorization/{$matches[0]}.php");
-            return;
-        }
-    }
 
+    $matches = [];
     if (preg_match('/(.*)(Model)$/', $name, $matches)) {
         if (is_file(DOKU_LIB_IOC."wikiiocmodel/datamodel/{$matches[0]}.php")) {
             require_once(DOKU_LIB_IOC."wikiiocmodel/datamodel/{$matches[0]}.php");
