@@ -42,19 +42,6 @@ function ioc_project_autoload($name) {
                 $defClasses = getMainClass($projectDir);
             }
 
-            /*
-            // En el DokuModelManager de cada proyecto se establecen las rutas a las clases que necesita el proyecto
-            if ($existDokuModelManager) {
-                if ($dokuModelManager)
-                    include_once $dokuModelManager;
-                if (is_null($defClasssProj)) {
-                    $defClasssProj = DokuModelManager::getDefaultMainClass();
-                }
-            }
-            if (is_null($defClasses)) {
-                $defClasses = getMainClass($projectDir);
-            }*/
-
             //Aquí se averigua (y, en su caso, se carga) si se ha solicitado una Clase principal
             if (isset($defClasssProj[$name]) &&
                 @file_exists($defClasssProj[$name]) &&
@@ -97,7 +84,7 @@ function ioc_project_autoload($name) {
                 }
             }
 
-            //Solicita la carga la clase de autorización por defecto
+            //Solicita la carga la clase de autorización por defecto en DOKU_LIB_IOC
             if (getAuthorizationClass($name)) return;
 
             //Si todavía no la encuentra, buscará la clase en las rutas de la raíz WIKI_IOC_MODEL
@@ -108,8 +95,6 @@ function ioc_project_autoload($name) {
                     return;
                 }
             }
-        }else {
-            getAuthorizationClass($name);
         }
     }
     return;

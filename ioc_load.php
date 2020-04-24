@@ -76,7 +76,13 @@ function ioc_autoload($name) {
             'ResourceUnlockerInterface' => DOKU_LIB_IOC.'wikiiocmodel/ResourceUnlockerInterface.php',
             'ResultsWithFiles'          => DOKU_LIB_IOC.'wikiiocmodel/ResultsWithFiles.php',
 
-            'Logger'               => DOKU_INC.'inc/inc_ioc/Logger.php',
+            'AbstractFactoryAuthorization' => DOKU_LIB_IOC.'wikiiocmodel/authorization/AbstractFactoryAuthorization.php',
+            'BasicCommandAuthorization'    => DOKU_LIB_IOC.'wikiiocmodel/authorization/BasicCommandAuthorization.php',
+            'ProjectCommandAuthorization'  => DOKU_LIB_IOC.'wikiiocmodel/authorization/ProjectCommandAuthorization.php',
+            'ProjectFactoryAuthorization'  => DOKU_LIB_IOC.'wikiiocmodel/authorization/ProjectFactoryAuthorization.php',
+
+            'BasicPermission'   => DOKU_LIB_IOC.'wikiiocmodel/authorization/BasicPermission.php',
+            'ProjectPermission' => DOKU_LIB_IOC.'wikiiocmodel/authorization/ProjectPermission.php',
 
             'BasicPersistenceEngine' => DOKU_LIB_IOC.'wikiiocmodel/persistence/BasicPersistenceEngine.php',
             'DataQuery'              => DOKU_LIB_IOC.'wikiiocmodel/persistence/DataQuery.php',
@@ -88,8 +94,7 @@ function ioc_autoload($name) {
             'BasicRenderObject'    => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicExporterClasses.php',
             'BasicFactoryExporter' => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicFactoryExporter.php',
 
-            'BasicPermission'      => DOKU_LIB_IOC.'wikiiocmodel/authorization/BasicPermission.php',
-            'ProjectPermission'    => DOKU_LIB_IOC.'wikiiocmodel/authorization/ProjectPermission.php',
+            'Logger' => DOKU_INC.'inc/inc_ioc/Logger.php'
         );
     }
 
