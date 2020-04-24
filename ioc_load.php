@@ -81,8 +81,9 @@ function ioc_autoload($name) {
             'ProjectCommandAuthorization'  => DOKU_LIB_IOC.'wikiiocmodel/authorization/ProjectCommandAuthorization.php',
             'ProjectFactoryAuthorization'  => DOKU_LIB_IOC.'wikiiocmodel/authorization/ProjectFactoryAuthorization.php',
 
-            'BasicPermission'   => DOKU_LIB_IOC.'wikiiocmodel/authorization/BasicPermission.php',
-            'ProjectPermission' => DOKU_LIB_IOC.'wikiiocmodel/authorization/ProjectPermission.php',
+            'BasicPermission'      => DOKU_LIB_IOC.'wikiiocmodel/authorization/BasicPermission.php',
+            'ProjectPermission'    => DOKU_LIB_IOC.'wikiiocmodel/authorization/ProjectPermission.php',
+            'SupervisorPermission' => DOKU_LIB_IOC.'wikiiocmodel/authorization/SupervisorPermission.php',
 
             'BasicPersistenceEngine' => DOKU_LIB_IOC.'wikiiocmodel/persistence/BasicPersistenceEngine.php',
             'DataQuery'              => DOKU_LIB_IOC.'wikiiocmodel/persistence/DataQuery.php',
