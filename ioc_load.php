@@ -34,6 +34,8 @@ function ioc_autoload($name) {
             'DokuWiki_Auth_Plugin'   => DOKU_PLUGIN.'auth.php',
 
             'IocCommon'         => DOKU_LIB_IOC.'common/IocCommon.php',
+            'SharedConstants' => DOKU_LIB_IOC . "common/SharedConstants.php",
+
             'AbstractCalculate' => DOKU_LIB_IOC.'common/utility/AbstractCalculate.php',
             'AbstractValidate'  => DOKU_LIB_IOC.'common/utility/AbstractValidate.php',
 
