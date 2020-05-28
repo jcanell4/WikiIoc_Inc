@@ -36,6 +36,7 @@ function ioc_autoload($name) {
             'IocCommon'         => DOKU_LIB_IOC.'common/IocCommon.php',
             'AbstractCalculate' => DOKU_LIB_IOC.'common/utility/AbstractCalculate.php',
             'AbstractValidate'  => DOKU_LIB_IOC.'common/utility/AbstractValidate.php',
+            'SharedConstants'  => DOKU_LIB_IOC.'common/SharedConstants.php',
 
             'ajaxCall'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
             'ajaxRest'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
