@@ -161,7 +161,6 @@ function ioc_autoload($name) {
     }
 
     if (preg_match('/^Wioccl.*$/', $name)) {
-        $t = file_exists(DOKU_LIB_IOC.'wioccl/'.$name.'.php');
         require_once(DOKU_LIB_IOC.'wioccl/'.$name.'.php');
         return;
     }
