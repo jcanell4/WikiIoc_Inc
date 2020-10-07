@@ -96,7 +96,6 @@ function ioc_autoload($name) {
             'AbstractRenderer'     => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicExporterClasses.php',
             'BasicRenderObject'    => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicExporterClasses.php',
             'BasicFactoryExporter' => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicFactoryExporter.php',
-
             'Logger' => DOKU_INC.'inc/inc_ioc/Logger.php'
         );
     }
@@ -107,6 +106,13 @@ function ioc_autoload($name) {
     }
 
     $matches = [];
+    if (preg_match('/^render.*$/', $name, $matches)) {
+        if (is_file(DOKU_LIB_IOC."wikiiocmodel/exporter/{$matches[0]}.php")) {
+            require_once(DOKU_LIB_IOC."wikiiocmodel/exporter/{$matches[0]}.php");
+            return;
+        }
+    }
+
     if (preg_match('/(.*)(Model)$/', $name, $matches)) {
         if (is_file(DOKU_LIB_IOC."wikiiocmodel/datamodel/{$matches[0]}.php")) {
             require_once(DOKU_LIB_IOC."wikiiocmodel/datamodel/{$matches[0]}.php");
