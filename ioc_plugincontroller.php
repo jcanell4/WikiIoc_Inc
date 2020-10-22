@@ -14,7 +14,8 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     protected $currentProject = '';
     protected $metaDataSubSet = '';
     protected $projectOwner = '';
-    protected $projectSourceType= '';
+    protected $projectSourceType = '';
+    protected $currentProjectVersions = array();
     protected $persistenceEngine;
     protected $modelManager;
 
@@ -37,17 +38,17 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     }
 
     public function setCurrentProject($params) {
-        if(isset($params[AjaxKeys::PROJECT_TYPE])){
+        if (isset($params[AjaxKeys::PROJECT_TYPE])){
             $this->currentProject = $params[AjaxKeys::PROJECT_TYPE];
         }else{
             $this->currentProject = AjaxKeys::VAL_DEFAULTPROJECTTYPE;
         }
         $this->projectSourceType = $params[AjaxKeys::PROJECT_SOURCE_TYPE];
         $this->projectOwner      = $params[AjaxKeys::PROJECT_OWNER];
-        if(isset( $params[AjaxKeys::METADATA_SUBSET])){
-            $this->metaDataSubSet    = $params[AjaxKeys::METADATA_SUBSET];
+        if (isset($params[AjaxKeys::METADATA_SUBSET])){
+            $this->metaDataSubSet = $params[AjaxKeys::METADATA_SUBSET];
         }
-//        $this->projectTypeDir    = $params[AjaxKeys::PROJECT_TYPE_DIR];
+        $this->currentProjectVersions = $this->getCurrentProjectVersions(NULL, FALSE, AjaxKeys::VAL_DEFAULTSUBSET, TRUE);
     }
 
     // id del projecte quan el call prové des d'un document que pertany a un projecte
@@ -77,10 +78,14 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     }
 
     public function getProjectTypeDir($projectType=FALSE) {
-        $trobat=FALSE;
-        $projectTypeDir;
+        $trobat = FALSE;
+        $projectTypeDir = NULL;
         if(!$projectType){
-            $projectType = $this->getCurrentProject();
+            //
+            //ATENCIÓ: vigilar que aquest canvi funcioni bé per a projectes i per a pages
+            //
+            //$projectType = $this->getCurrentProject();
+            $projectType = $this->getProjectType();
         }
         $projectPlugins = array_keys($this->tmp_projects);
         for($ind=0; !$trobat && $ind<count($projectPlugins); $ind++){
@@ -92,7 +97,40 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         }
         return $projectTypeDir;
     }
-    
+
+    /**
+     *
+     * @param string  $att : Atribut solicitat de metaDataProjectStructure:versions de configMain.json
+     * @param string  $projectType : Tipus de projecte
+     * @param string  $metaDataSubSet : metaDataSubSet del projecte
+     * @param boolean $force : indica si s'ha de forçar la lectura de configMain.json
+     * @return int|array : conté el valor per a 'fields' o el array per a 'templates' o el array 'versions' o NULL
+     */
+    public function getCurrentProjectVersions($att=NULL, $projectType=FALSE, $metaDataSubSet=AjaxKeys::VAL_DEFAULTSUBSET, $force=FALSE) {
+        if (!$force && !empty($this->currentProjectVersions)) {
+            $ret = $this->currentProjectVersions;
+        }else {
+            if (!$projectType && $this->projectOwner) {
+                $projectType = $this->projectOwner;
+            }
+            $projectTypeDir = $this->getProjectTypeDir($projectType);
+            if ($projectTypeDir) {
+                $config = @file_get_contents($projectTypeDir."metadata/config/configMain.json");
+                if ($config != FALSE) {
+                    $struc = json_decode($config, true);
+                    $elem = $struc[ProjectKeys::KEY_METADATA_PROJECT_STRUCTURE];
+                    for ($i=0; $i<count($elem); $i++) {
+                        if (array_key_exists($metaDataSubSet, $elem[$i])) {
+                            $ret = $elem[$i]['versions'];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return ($att) ? $ret[$att] : $ret;
+    }
+
     public function getPersistenceEngine(){
         return $this->persistenceEngine;
     }
