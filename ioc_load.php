@@ -98,6 +98,7 @@ function ioc_autoload($name) {
             'BasicFactoryExporter' => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicFactoryExporter.php',
             "BasicPdfRenderer"     => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicPsdomToPdf.php',
             "TcpPdfStyle"          => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicPsdomToPdf.php',
+            "BasicIocTcPdf"          => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicPsdomToPdf.php',
             'Logger' => DOKU_INC.'inc/inc_ioc/Logger.php'
         );
     }
