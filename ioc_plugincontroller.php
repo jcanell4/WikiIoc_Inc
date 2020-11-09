@@ -110,8 +110,8 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         if (!$force && !empty($this->currentProjectVersions)) {
             $ret = $this->currentProjectVersions;
         }else {
-            if (!$projectType && $this->projectOwner) {
-                $projectType = $this->projectOwner;
+            if (!$projectType) {
+                $projectType = $this->getProjectType();
             }
             $projectTypeDir = $this->getProjectTypeDir($projectType);
             if ($projectTypeDir) {
