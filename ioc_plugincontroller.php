@@ -80,12 +80,12 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     public function getProjectTypeDir($projectType=FALSE) {
         $trobat = FALSE;
         $projectTypeDir = NULL;
-        if(!$projectType){
+        if (!$projectType) {
             //
             //ATENCIÓ: vigilar que aquest canvi funcioni bé per a projectes i per a pages
             //
-            //$projectType = $this->getCurrentProject();
-            $projectType = $this->getProjectType();
+            $projectType = $this->getCurrentProject();
+            //$projectType = $this->getProjectType();
         }
         $projectPlugins = array_keys($this->tmp_projects);
         for($ind=0; !$trobat && $ind<count($projectPlugins); $ind++){
