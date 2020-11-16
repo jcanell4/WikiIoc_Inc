@@ -160,7 +160,18 @@ function ioc_autoload($name) {
     }
 
     if (preg_match('/^I?Calculate.*$/', $name)) {
-        require_once(DOKU_LIB_IOC.'common/utility/'.$name.'.php');
+        if(@file_exists(DOKU_LIB_IOC.'common/utility/'.$name.'.php')){
+            require_once(DOKU_LIB_IOC.'common/utility/'.$name.'.php');
+        }else{
+            $found = FALSE;
+            $dir = scandir(DOKU_LIB_IOC.'common/utility/');
+            for($i=0; !$found && $i<count($dir); $i++){
+                $found = @file_exists(DOKU_LIB_IOC."common/utility/{$dir[$i]}/$name.php");
+                if($found){
+                    require_once(DOKU_LIB_IOC."common/utility/{$dir[$i]}/$name.php");
+                }                
+            }
+        }
         return;
     }
 
