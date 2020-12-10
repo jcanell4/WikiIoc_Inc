@@ -139,6 +139,27 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         $this->persistenceEngine = $persistenceEngine;
     }
 
+    public function get_ftpsend_metadata($projectId=NULL, $projectSourceType=NULL, $metadataSubset=Projectkeys::VAL_DEFAULTSUBSET) {
+        global $ID;
+        
+        if(!$projectId){
+            $projectId = $this->projectOwner?$this->projectOwner:$ID;
+        }
+        if(!$projectSourceType){
+            $projectSourceType = $this->projectSourceType?$this->projectSourceType:$this->currentProject;
+        }
+
+        if ($projectId && $this->persistenceEngine) {
+            $modelClass = $projectSourceType."ProjectModel";
+            $model = new $modelClass($this->persistenceEngine);
+            $model->init($projectId, $projectSourceType, NULL, "defaultView", $metadataSubset);
+            $data = $model->get_ftpsend_metadata(FALSE);
+        } else {
+            throw new Exception("Project or persistence not specified");
+        }
+        return $data;
+    }
+    
     public function getProjectFile($projectOwner=NULL, $projectSourceType=NULL) {
         if(!$projectOwner){
             $projectOwner = $this->projectOwner;
@@ -170,10 +191,18 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             $subset = $this->metaDataSubSet;
         }
         if ($projectOwner && $this->persistenceEngine) {
+            
+            $projectDir = $this->getProjectTypeDir($projectSourceType );
+            $ownProjectModel = $projectSourceType."ProjectModel";
+            if(!class_exists($ownProjectModel, false)){
+                require_once $projectDir."datamodel/".$ownProjectModel.".php";
+            }
+            $projectModel = new $ownProjectModel($this->persistenceEngine);
+            $data = $projectModel->getDataProject($projectOwner, $projectSourceType, $subset);
 
-            $model = new BasicWikiDataModel($this->persistenceEngine);
-            $query = $model->getProjectMetaDataQuery();
-            $data = $query->init($projectOwner, $subset,  $projectSourceType)->getDataProject();
+//            $model = new BasicWikiDataModel($this->persistenceEngine);
+//            $query = $model->getProjectMetaDataQuery();
+//            $data = $query->init($projectOwner, $subset,  $projectSourceType)->getDataProject();
             return $data;
         }else {
             throw new Exception("Project or persistence not specified");
