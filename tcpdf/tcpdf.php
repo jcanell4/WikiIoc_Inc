@@ -7178,7 +7178,7 @@ class TCPDF {
 		} else {
 			$ximg = $x;
 		}
-		
+
 		if ($ismask OR $hidden) {
 			// image is not displayed
 			return $info['i'];
@@ -19098,18 +19098,18 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 				break;
 			}
 			case 'div': {
-                            //START IOC CODE 
+                            //[START: IOC]
 //				$this->addHTMLVertSpace($hbz, $hb, $cell, $firsttag);
 				$this->addHTMLVertSpace(0, 0, $cell, $firsttag);
-                             //END IOC CODE
+                             //[END: IOC]
 				break;
 			}
 			case 'p': {
-                            //START IOC CODE
+                            //[START: IOC]
                                 if(!$firsttag && $dom[$key-1]["value"]=="div"){
                                     $firsttag = TRUE;
                                 }
-                            //START IOC CODE
+                            //[START: IOC]
 				$this->addHTMLVertSpace($hbz, $hb, $cell, $firsttag);
 				break;
 			}
@@ -19859,10 +19859,10 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 				break;
 			}
 			case 'div': {
-                            //START IOC CODE
+                            //[START: IOC]
 //				$this->addHTMLVertSpace($hbz, $hb, $cell, false, $lasttag);
 				$this->addHTMLVertSpace(0, 0, $cell, false, $lasttag);
-                             //END IOC CODE
+                             //[END: IOC]
 				break;
 			}
 			case 'blockquote': {
