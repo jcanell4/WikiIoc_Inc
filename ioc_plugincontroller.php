@@ -185,8 +185,8 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     public function getCurrentProjectModel($subset=FALSE) {
         if (!$subset) $subset = $this->metaDataSubSet;
         if ($this->persistenceEngine) {
-            $projectDir = $this->getProjectTypeDir($projectSourceType );
-            $ownProjectModel = $projectSourceType."ProjectModel";
+            $projectDir = $this->getProjectTypeDir($this->currentProject);
+            $ownProjectModel = $this->currentProject."ProjectModel";
             if (!class_exists($ownProjectModel, false)){
                 require_once $projectDir."datamodel/".$ownProjectModel.".php";
             }
