@@ -19,6 +19,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     protected $persistenceEngine;
     protected $modelManager;
     protected $id;
+    protected $actionCommand;
 
     /**
      * Populates the parent master list of plugins and add projects
@@ -50,6 +51,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         if (isset($params[AjaxKeys::METADATA_SUBSET])){
             $this->metaDataSubSet = $params[AjaxKeys::METADATA_SUBSET];
         }
+        $this->actionCommand = $params[AjaxKeys::KEY_ACTION];
         $this->currentProjectVersions = $this->getCurrentProjectVersions(NULL, FALSE, AjaxKeys::VAL_DEFAULTSUBSET, TRUE);
     }
 
@@ -174,7 +176,6 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             $model = new BasicWikiDataModel($this->persistenceEngine);
             $query = $model->getProjectMetaDataQuery();
             $query->init($projectOwner, $this->metaDataSubSet, $projectSourceType);
-//            $param = array(ProjectKeys::KEY_PROJECT_TYPE => $projectSourceType, ProjectKeys::KEY_METADATA_SUBSET=> $this->metaDataSubSet);
             $data = $query->getFileName($projectOwner, $param);
         } else {
             throw new Exception("Project or persistence not specified");
@@ -191,7 +192,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
                 require_once $projectDir."datamodel/".$ownProjectModel.".php";
             }
             $projectModel = new $ownProjectModel($this->persistenceEngine);
-            $projectModel->init($this->id, $this->currentProject, NULL, NULL, $subset);
+            $projectModel->init($this->id, $this->currentProject, NULL, NULL, $subset, $this->actionCommand);
             return $projectModel;
         }else {
             throw new Exception("Project or persistence not specified");
