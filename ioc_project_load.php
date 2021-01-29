@@ -30,13 +30,14 @@ function ioc_project_autoload($name) {
         if (($project = $plugin_controller->getCurrentProject())) {
             $projectDir = $plugin_controller->getProjectTypeDir($project);
 
-            $existDokuModelManager = class_exists('DokuModelManager', FALSE);
+            $classe = "{$project}DokuModelManager";
+            $existDokuModelManager = class_exists($classe, FALSE);
             if (!$existDokuModelManager) {
-                include_once $projectDir.DOKUMODELMANAGER;
+                include_once $projectDir.$project.DOKUMODELMANAGER;
             }
 
             if (is_null($defClasssProj)) {
-               $defClasssProj = DokuModelManager::getDefaultMainClass();
+               $defClasssProj = $classe::getDefaultMainClass();
             }
             if (is_null($defClasses)) {
                 $defClasses = getMainClass($projectDir);
@@ -72,7 +73,7 @@ function ioc_project_autoload($name) {
             }
             //Si no encuentra la clase solicitada en las rutas propias del proyecto, buscará en rutas alternativas definidas en DokumodelManager
             if ($existDokuModelManager) {
-                $arr_project_dir_class = DokuModelManager::getDefaultDirClass($type_class);
+                $arr_project_dir_class = $classe::getDefaultDirClass($type_class);
                 if ($arr_project_dir_class) {
                     foreach ($arr_project_dir_class as $projdir) {
                         $fichero = $projdir.$name.".php";
