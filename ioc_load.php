@@ -72,6 +72,7 @@ function ioc_autoload($name) {
             'WikiIocPluginController'      => DOKU_LIB_IOC.'wikiiocmodel/WikiIocPluginController.php',
             'WikiIocPluginAction'          => DOKU_LIB_IOC.'wikiiocmodel/WikiIocPluginAction.php',
             'WikiIocProjectPluginAction'   => DOKU_LIB_IOC.'wikiiocmodel/WikiIocProjectPluginAction.php',
+            'WikiIocProjectWorkflowPluginAction' => DOKU_LIB_IOC.'wikiiocmodel/WikiIocProjectWorkflowPluginAction.php',
 
             'ResourceLocker'            => DOKU_LIB_IOC.'wikiiocmodel/ResourceLocker.php',
             'ResourceLockerInterface'   => DOKU_LIB_IOC.'wikiiocmodel/ResourceLockerInterface.php',
@@ -169,7 +170,7 @@ function ioc_autoload($name) {
                 $found = @file_exists(DOKU_LIB_IOC."common/utility/{$dir[$i]}/$name.php");
                 if($found){
                     require_once(DOKU_LIB_IOC."common/utility/{$dir[$i]}/$name.php");
-                }                
+                }
             }
         }
         return;

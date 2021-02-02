@@ -18,6 +18,8 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     protected $currentProjectVersions = array();
     protected $persistenceEngine;
     protected $modelManager;
+    protected $id;
+    protected $actionCommand;
 
     /**
      * Populates the parent master list of plugins and add projects
@@ -37,7 +39,8 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         return $all ? array_merge($parenListByType,$this->list_byProjectType[$type]['enabled'],$this->list_byProjectType[$type]['disabled']) : array_merge($parenListByType,$this->list_byProjectType[$type]['enabled']);
     }
 
-    public function setCurrentProject($params) {
+    public function setCurrentProject($params) {//[JOSEP]. TODO => RAFA: Cal canviar de nom aquesta funció. S'ha d'anomenar setCurrentProjectType
+        $this->id = $params[AjaxKeys::KEY_ID];
         if (isset($params[AjaxKeys::PROJECT_TYPE])){
             $this->currentProject = $params[AjaxKeys::PROJECT_TYPE];
         }else{
@@ -48,6 +51,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         if (isset($params[AjaxKeys::METADATA_SUBSET])){
             $this->metaDataSubSet = $params[AjaxKeys::METADATA_SUBSET];
         }
+        $this->actionCommand = $params[AjaxKeys::KEY_ACTION];
         $this->currentProjectVersions = $this->getCurrentProjectVersions(NULL, FALSE, AjaxKeys::VAL_DEFAULTSUBSET, TRUE);
     }
 
@@ -62,7 +66,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
     }
 
     // Tipus de projecte quan el call prové del formulari
-    public function getCurrentProject() {
+    public function getCurrentProject() {//[JOSEP]. TODO => RAFA: Cal canviar de nom aquesta funció. S'ha d'anomenar getCurrentProjectType
         return $this->currentProject;
     }
 
@@ -141,7 +145,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
 
     public function get_ftpsend_metadata($projectId=NULL, $projectSourceType=NULL, $metadataSubset=Projectkeys::VAL_DEFAULTSUBSET) {
         global $ID;
-        
+
         if(!$projectId){
             $projectId = $this->projectOwner?$this->projectOwner:$ID;
         }
@@ -159,8 +163,8 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         }
         return $data;
     }
-    
-    public function getProjectFile($projectOwner=NULL, $projectSourceType=NULL) {
+
+    public function getProjectFile($projectOwner=NULL, $projectSourceType=NULL) {//[JOSEP] ALERTA => RAFA: Quifa servir aquesta funció? Si és interna caldria fer.la private. Si es fa servir fora d'aquí, caldria buscar alternatuva. Proposo fer llista d'usos.
         if(!$projectOwner){
             $projectOwner = $this->projectOwner;
         }
@@ -172,12 +176,27 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             $model = new BasicWikiDataModel($this->persistenceEngine);
             $query = $model->getProjectMetaDataQuery();
             $query->init($projectOwner, $this->metaDataSubSet, $projectSourceType);
-//            $param = array(ProjectKeys::KEY_PROJECT_TYPE => $projectSourceType, ProjectKeys::KEY_METADATA_SUBSET=> $this->metaDataSubSet);
             $data = $query->getFileName($projectOwner, $param);
         } else {
             throw new Exception("Project or persistence not specified");
         }
         return $data;
+    }
+
+    public function getCurrentProjectModel($subset=FALSE) {
+        if (!$subset) $subset = $this->metaDataSubSet;
+        if ($this->persistenceEngine) {
+            $projectDir = $this->getProjectTypeDir($this->currentProject);
+            $ownProjectModel = $this->currentProject."ProjectModel";
+            if (!class_exists($ownProjectModel, false)){
+                require_once $projectDir."datamodel/".$ownProjectModel.".php";
+            }
+            $projectModel = new $ownProjectModel($this->persistenceEngine);
+            $projectModel->init($this->id, $this->currentProject, NULL, NULL, $subset, $this->actionCommand);
+            return $projectModel;
+        }else {
+            throw new Exception("Project or persistence not specified");
+        }
     }
 
     public function getCurrentProjectDataSource($projectOwner=FALSE, $projectSourceType=FALSE, $subset=FALSE) {
@@ -190,8 +209,8 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         if(!$subset){
             $subset = $this->metaDataSubSet;
         }
-        if ($projectOwner && $this->persistenceEngine) {
-            
+        if ($projectOwner && $this->persistenceEngine) {//[JOSEP] TODO => RAFA: Substituir aquest bloc de codi pel mètode getCurrentProjectModel
+
             $projectDir = $this->getProjectTypeDir($projectSourceType );
             $ownProjectModel = $projectSourceType."ProjectModel";
             if(!class_exists($ownProjectModel, false)){
