@@ -78,6 +78,7 @@ function ioc_autoload($name) {
             'ResourceLockerInterface'   => DOKU_LIB_IOC.'wikiiocmodel/ResourceLockerInterface.php',
             'ResourceUnlockerInterface' => DOKU_LIB_IOC.'wikiiocmodel/ResourceUnlockerInterface.php',
             'ResultsWithFiles'          => DOKU_LIB_IOC.'wikiiocmodel/ResultsWithFiles.php',
+            'ResultsVerificationError'  => DOKU_LIB_IOC.'wikiiocmodel/ResultsVerificationError.php',
 
             'AbstractFactoryAuthorization' => DOKU_LIB_IOC.'wikiiocmodel/authorization/AbstractFactoryAuthorization.php',
             'BasicCommandAuthorization'    => DOKU_LIB_IOC.'wikiiocmodel/authorization/BasicCommandAuthorization.php',
