@@ -70,6 +70,17 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         return $this->currentProject;
     }
 
+    public function getProjectTypeFromProjectId($projectId) {
+         if ($this->persistenceEngine) {
+            $model = new BasicWikiDataModel($this->persistenceEngine);
+            $query = $model->getProjectMetaDataQuery();
+            $ret = $query->getProjectType($projectId);
+        } else {
+            throw new Exception("Persistence not specified");
+        }
+        return $ret;
+    }
+
     // Tipus de projecte independentment del call
     public function getProjectType() {
         $projectSourceType = $this->getProjectSourceType();
@@ -198,6 +209,28 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             throw new Exception("Project or persistence not specified");
         }
     }
+    
+    public function getProjectDataSourceFromProjectId($projectId, $projectSourceType=FALSE, $subset=FALSE) {
+         if(!$projectSourceType){
+            $projectSourceType = $this->getProjectTypeFromProjectId($projectId);
+        }
+        if(!$subset){
+            $subset = ProjectKeys::VAL_DEFAULTSUBSET;
+        }
+        if ($projectId && $this->persistenceEngine) {//[JOSEP] TODO => RAFA: Substituir aquest bloc de codi pel mètode getCurrentProjectModel
+
+            $projectDir = $this->getProjectTypeDir($projectSourceType );
+            $ownProjectModel = $projectSourceType."ProjectModel";
+            if(!class_exists($ownProjectModel, false)){
+                require_once $projectDir."datamodel/".$ownProjectModel.".php";
+            }
+            $projectModel = new $ownProjectModel($this->persistenceEngine);
+            $data = $projectModel->getDataProject($projectId, $projectSourceType, $subset);
+            return $data;
+        }else {
+            throw new Exception("Project or persistence not specified");
+        }        
+    }
 
     public function getCurrentProjectDataSource($projectOwner=FALSE, $projectSourceType=FALSE, $subset=FALSE) {
         if(!$projectOwner){
@@ -209,23 +242,24 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         if(!$subset){
             $subset = $this->metaDataSubSet;
         }
-        if ($projectOwner && $this->persistenceEngine) {//[JOSEP] TODO => RAFA: Substituir aquest bloc de codi pel mètode getCurrentProjectModel
-
-            $projectDir = $this->getProjectTypeDir($projectSourceType );
-            $ownProjectModel = $projectSourceType."ProjectModel";
-            if(!class_exists($ownProjectModel, false)){
-                require_once $projectDir."datamodel/".$ownProjectModel.".php";
-            }
-            $projectModel = new $ownProjectModel($this->persistenceEngine);
-            $data = $projectModel->getDataProject($projectOwner, $projectSourceType, $subset);
-
-//            $model = new BasicWikiDataModel($this->persistenceEngine);
-//            $query = $model->getProjectMetaDataQuery();
-//            $data = $query->init($projectOwner, $subset,  $projectSourceType)->getDataProject();
-            return $data;
-        }else {
-            throw new Exception("Project or persistence not specified");
-        }
+        return $this->getProjectDataSourceFromProjectId($projectOwner, $projectSourceType, $subset);
+//        if ($projectOwner && $this->persistenceEngine) {//[JOSEP] TODO => RAFA: Substituir aquest bloc de codi pel mètode getCurrentProjectModel
+//
+//            $projectDir = $this->getProjectTypeDir($projectSourceType );
+//            $ownProjectModel = $projectSourceType."ProjectModel";
+//            if(!class_exists($ownProjectModel, false)){
+//                require_once $projectDir."datamodel/".$ownProjectModel.".php";
+//            }
+//            $projectModel = new $ownProjectModel($this->persistenceEngine);
+//            $data = $projectModel->getDataProject($projectOwner, $projectSourceType, $subset);
+//
+////            $model = new BasicWikiDataModel($this->persistenceEngine);
+////            $query = $model->getProjectMetaDataQuery();
+////            $data = $query->init($projectOwner, $subset,  $projectSourceType)->getDataProject();
+//            return $data;
+//        }else {
+//            throw new Exception("Project or persistence not specified");
+//        }
     }
 
 
