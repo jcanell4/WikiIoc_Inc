@@ -44,7 +44,12 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         if (isset($params[AjaxKeys::PROJECT_TYPE])){
             $this->currentProject = $params[AjaxKeys::PROJECT_TYPE];
         }else{
-            $this->currentProject = AjaxKeys::VAL_DEFAULTPROJECTTYPE;
+            $type = $this->getProjectTypeFromProjectId($this->id, TRUE);
+            if($type){
+                $this->currentProject = $type;
+            }else{
+                $this->currentProject = AjaxKeys::VAL_DEFAULTPROJECTTYPE;
+            }
         }
         $this->projectSourceType = $params[AjaxKeys::PROJECT_SOURCE_TYPE];
         $this->projectOwner      = $params[AjaxKeys::PROJECT_OWNER];
@@ -70,9 +75,13 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         return $this->currentProject;
     }
 
-    public function getProjectTypeFromProjectId($projectId) {
+    public function getProjectTypeFromProjectId($projectId, $force=FALSE) {
          if ($this->persistenceEngine) {
             $model = new BasicWikiDataModel($this->persistenceEngine);
+            $query = $model->getProjectMetaDataQuery();
+            $ret = $query->getProjectType($projectId);
+        } elseif($force){
+            $model = new BasicWikiDataModel(new BasicPersistenceEngine());
             $query = $model->getProjectMetaDataQuery();
             $ret = $query->getProjectType($projectId);
         } else {
