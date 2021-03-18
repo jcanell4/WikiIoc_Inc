@@ -60,7 +60,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         $this->currentProjectVersions = $this->getCurrentProjectVersions(NULL, FALSE, AjaxKeys::VAL_DEFAULTSUBSET, TRUE);
     }
 
-    // id del projecte quan el call prové des d'un document que pertany a un projecte
+    // projectId del projecte quan el call prové des d'un document que pertany a un projecte
     public function getProjectOwner() {
         return $this->projectOwner;
     }
