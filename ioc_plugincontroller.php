@@ -218,7 +218,31 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             throw new Exception("Project or persistence not specified");
         }
     }
-    
+
+    /**
+     * Retorna una instancia al modelo del tipo de proyecto indicado
+     * @param string $id : wiki ruta (ns) del proyecto
+     * @param string $projectType : tipo de proyecto
+     * @param string $subset
+     * @return \model
+     * @throws Exception
+     */
+    public function getAnotherProjectModel($id, $projectType, $subset=FALSE) {
+        if (!$subset) $subset = ProjectKeys::VAL_DEFAULTSUBSET;
+        if ($this->persistenceEngine) {
+            $projectDir = $this->getProjectTypeDir($projectType);
+            $model = "{$projectType}ProjectModel";
+            if (!class_exists($model, false)){
+                require_once "{$projectDir}datamodel/{$model}.php";
+            }
+            $projectModel = new $model($this->persistenceEngine);
+            $projectModel->init($id, $projectType, NULL, NULL, $subset);
+            return $projectModel;
+        }else {
+            throw new Exception("Project or persistence not specified");
+        }
+    }
+
     public function getProjectDataSourceFromProjectId($projectId, $projectSourceType=FALSE, $subset=FALSE) {
          if(!$projectSourceType){
             $projectSourceType = $this->getProjectTypeFromProjectId($projectId);
@@ -325,23 +349,16 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
      */
     private function _get_directory_project($plugin) {
         // ALERTA! [Xavi] Comprovem si existeix el SourceType per carregar correctament els plugins corresponents a la
-        // sintaxi dintre de projectes. En aquest cas es fa servir el projectSourceType ja que el currentProject és
-        // default.
-
-        $projectType = $this->getProjectType();
-
-        return "$plugin/projects/" . $projectType;
+        // sintaxi dintre de projectes. En aquest cas es fa servir el projectSourceType ja que el currentProject és default.
+        return "$plugin/projects/" . $this->getProjectType();
     }
 
-
-
     private function _nameTransform($name) {
-        //return str_replace('/', '_', str_replace('/projects/', '~', $name));
         return str_replace('/', '_', $name);
     }
 
     private function _populateMasterListProjects() {
-        if ($dh = @opendir(DOKU_PLUGIN)) {
+        if (($dh = @opendir(DOKU_PLUGIN))) {
             $all_plugin_projects = array();
             while (false !== ($project = readdir($dh))) {
                 if ($project[0] == '.' || is_file(DOKU_PLUGIN.$project)) continue; // skip hidden entries and files, we're only interested in directories
@@ -352,52 +369,4 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         }
     }
 
-//if (!defined('DOKU_PROJECT')) define('DOKU_PROJECT', DOKU_INC.'lib/projects/');
-    /**
-     * Split name in a plugin name and a component name.
-     * If '~' exists, it's indicate a project name
-     * @param string $name
-     * @return array with
-     *              - plugin name
-     *              - and component name when available, otherwise empty string
-     */
-//    protected function _splitName($name) {
-//        if (array_search($name, array_keys($this->tmp_plugins)) === FALSE) {
-//            if (strpos($name, '~') !== FALSE)
-//                $name = preg_replace('/~[a-zA-Z0-9]+/', '', $name);
-//            return explode('_', $name, 2);
-//        }
-//        return array($name, '');
-//    }
-
-//    protected function _populateMasterListProjects() {
-//        global $conf;
-//
-//        if ($dh = @opendir(DOKU_PROJECT)) {
-//            $all_projects = array();
-//            while (false !== ($project = readdir($dh))) {
-//                if ($project[0] == '.' || is_file(DOKU_PROJECT.$project)) continue; // skip hidden entries and files, we're only interested in directories
-//                $all_projects[$project] = 1;
-//            }
-//            $this->tmp_projects = $all_plugins;
-//            if (!file_exists($this->last_local_config_file_project)) {
-//                $this->saveList(true);
-//            }
-//        }
-//    }
-//
-//    protected function loadConfigProjects() {
-//        global $config_cascade;
-//        foreach(array('default','protected') as $type) {
-//            if(array_key_exists($type,$config_cascade['projects']))
-//                $this->project_cascade[$type] = $this->checkRequire($config_cascade['projects'][$type]);
-//        }
-//        $local = $config_cascade['projects']['local'];
-//        $this->last_local_config_file_project = array_pop($local);
-//        $this->project_cascade['local'] = $this->checkRequire(array($this->last_local_config_file_project));
-//        if(is_array($local)) {
-//            $this->project_cascade['default'] = array_merge($this->project_cascade['default'],$this->checkRequire($local));
-//        }
-//        $this->tmp_projects = array_merge($this->project_cascade['default'], $this->project_cascade['local'], $this->project_cascade['protected']);
-//    }
 }
