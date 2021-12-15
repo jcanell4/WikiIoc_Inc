@@ -202,6 +202,29 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
         }
         return $data;
     }
+    
+    public function canProjectOwnerAllowEditionDocument($id){
+        $ret = TRUE;
+        if(!empty($this->getProjectOwner())){
+            $projectModel = $this->getAnotherProjectModel($this->getProjectOwner(), $this->getProjectSourceType());
+            $ret = $projectModel->canDocumentBeEdited($id);
+        }
+        return $ret;
+    }
+    
+    public function isProjectOwnerTypeWorkflow(){
+        if ($this->persistenceEngine  && !empty($this->getProjectSourceType())) {
+            $projectDir = $this->getProjectTypeDir($this->getProjectSourceType());
+            $ret = file_exists($projectDir."metadata/config/workflow.json");
+            return $ret;
+        }else {
+            if($this->persistenceEngine ){
+                throw new Exception("El documen no pertany a acap projecte");
+            }else{
+                throw new Exception("Project or persistence not specified");
+            }
+        }
+    }
 
     public function getCurrentProjectModel($subset=FALSE) {
         if (!$subset) $subset = $this->metaDataSubSet;
