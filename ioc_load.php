@@ -27,11 +27,12 @@ function ioc_autoload($name) {
         $classes = array(
             'Ioc_Plugin_Controller'  => DOKU_INC.'inc/inc_ioc/ioc_plugincontroller.php',
 
-            'DokuWiki_Action_Plugin' => DOKU_PLUGIN.'action.php',
-            'DokuWiki_Admin_Plugin'  => DOKU_PLUGIN.'admin.php',
-            'DokuWiki_Syntax_Plugin' => DOKU_PLUGIN.'syntax.php',
-            'DokuWiki_Remote_Plugin' => DOKU_PLUGIN.'remote.php',
-            'DokuWiki_Auth_Plugin'   => DOKU_PLUGIN.'auth.php',
+              //repetidos en inc/load.php
+//            'DokuWiki_Action_Plugin' => DOKU_PLUGIN.'action.php',
+//            'DokuWiki_Admin_Plugin'  => DOKU_PLUGIN.'admin.php',
+//            'DokuWiki_Syntax_Plugin' => DOKU_PLUGIN.'syntax.php',
+//            'DokuWiki_Remote_Plugin' => DOKU_PLUGIN.'remote.php',
+//            'DokuWiki_Auth_Plugin'   => DOKU_PLUGIN.'auth.php',
 
             'IocCommon'         => DOKU_LIB_IOC.'common/IocCommon.php',
             'SharedConstants' => DOKU_LIB_IOC . "common/SharedConstants.php",
@@ -47,6 +48,7 @@ function ioc_autoload($name) {
             'abstract_writer_command_class' => DOKU_LIB_IOC.'ajaxcommand/abstract_writer_command_class.php',
             'abstract_project_command_class'=> DOKU_LIB_IOC.'ajaxcommand/abstract_project_command_class.php',
             'abstract_rest_command_class'   => DOKU_LIB_IOC.'ajaxcommand/abstract_rest_command_class.php',
+            'abstract_admin_command_class'  => DOKU_LIB_IOC.'ajaxcommand/abstract_admin_command_class.php',
 
             'JsonGenerator'     => DOKU_LIB_IOC.'ajaxcommand/JsonGenerator.php',
             'JSonGeneratorImpl' => DOKU_LIB_IOC.'ajaxcommand/JsonGenerator.php',
@@ -100,7 +102,11 @@ function ioc_autoload($name) {
             'BasicFactoryExporter' => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicFactoryExporter.php',
             "BasicPdfRenderer"     => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicPsdomToPdf.php',
             "TcpPdfStyle"          => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicPsdomToPdf.php',
-            "BasicIocTcPdf"          => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicPsdomToPdf.php',
+            "BasicIocTcPdf"        => DOKU_LIB_IOC.'wikiiocmodel/exporter/BasicPsdomToPdf.php',
+
+            'AdminAction'   => DOKU_LIB_IOC.'wikiiocmodel/actions/AdminAction.php',
+            'ProjectAction' => DOKU_LIB_IOC.'wikiiocmodel/actions/ProjectAction.php',
+
             'Logger' => DOKU_INC.'inc/inc_ioc/Logger.php'
         );
     }
