@@ -27,16 +27,8 @@ function ioc_autoload($name) {
         $classes = array(
             'Ioc_Plugin_Controller'  => DOKU_INC.'inc/inc_ioc/ioc_plugincontroller.php',
 
-              //repetidos en inc/load.php
-//            'DokuWiki_Action_Plugin' => DOKU_PLUGIN.'action.php',
-//            'DokuWiki_Admin_Plugin'  => DOKU_PLUGIN.'admin.php',
-//            'DokuWiki_Syntax_Plugin' => DOKU_PLUGIN.'syntax.php',
-//            'DokuWiki_Remote_Plugin' => DOKU_PLUGIN.'remote.php',
-//            'DokuWiki_Auth_Plugin'   => DOKU_PLUGIN.'auth.php',
-
             'IocCommon'         => DOKU_LIB_IOC.'common/IocCommon.php',
-            'SharedConstants' => DOKU_LIB_IOC . "common/SharedConstants.php",
-
+            'SharedConstants'   => DOKU_LIB_IOC.'common/SharedConstants.php',
             'AbstractCalculate' => DOKU_LIB_IOC.'common/utility/AbstractCalculate.php',
             'AbstractValidate'  => DOKU_LIB_IOC.'common/utility/AbstractValidate.php',
 
