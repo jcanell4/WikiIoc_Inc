@@ -32,6 +32,9 @@ function ioc_autoload($name) {
             'AbstractCalculate' => DOKU_LIB_IOC.'common/utility/AbstractCalculate.php',
             'AbstractValidate'  => DOKU_LIB_IOC.'common/utility/AbstractValidate.php',
 
+            '_BaseCondition'                => DOKU_LIB_IOC.'common/parserCondition/_AbstractConditions.php',
+            'ParserDataInterface'           => DOKU_LIB_IOC.'common/parserCondition/ParserDataInterface.php',
+
             'ajaxCall'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
             'ajaxRest'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
             'AbstractResponseHandler'       => DOKU_LIB_IOC.'ajaxcommand/AbstractResponseHandler.php',
