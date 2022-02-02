@@ -35,6 +35,11 @@ function ioc_autoload($name) {
             '_BaseCondition'                => DOKU_LIB_IOC.'common/parserCondition/_AbstractConditions.php',
             'ParserDataInterface'           => DOKU_LIB_IOC.'common/parserCondition/ParserDataInterface.php',
 
+            'NodeFactory'                   => DOKU_LIB_IOC.'common/parserCondition/TreeCondition.php',
+
+            'TreeParserData'                => DOKU_LIB_IOC.'common/parserCondition/TreeParserData.php',
+            'TreeCondition'                 => DOKU_LIB_IOC.'common/parserCondition/TreeCondition.php',
+
             'ajaxCall'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
             'ajaxRest'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
             'AbstractResponseHandler'       => DOKU_LIB_IOC.'ajaxcommand/AbstractResponseHandler.php',
