@@ -141,7 +141,7 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             if ($projectTypeDir) {
                 $config = @file_get_contents($projectTypeDir."metadata/config/configMain.json");
                 if ($config != FALSE) {
-                    $struc = json_decode($config, true);
+                    $struc = IocCommon::toArrayThroughArrayOrJson($config);
                     $elem = $struc[ProjectKeys::KEY_METADATA_PROJECT_STRUCTURE];
                     for ($i=0; $i<count($elem); $i++) {
                         if (array_key_exists($metaDataSubSet, $elem[$i])) {
