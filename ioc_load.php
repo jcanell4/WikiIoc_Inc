@@ -58,7 +58,7 @@ function ioc_autoload($name) {
 
             'WikiGlobalConfig'  => DOKU_PLUGIN.'ownInit/WikiGlobalConfig.php',
 
-            'MetaDataService'   => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',
+//            'MetaDataService'   => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',  //MetaDataService Deprecated
 
             'UpgradeManager' => DOKU_LIB_IOC.'upgrader/UpgradeManager.php',
 
