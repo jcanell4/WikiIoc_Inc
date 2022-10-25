@@ -58,8 +58,6 @@ function ioc_autoload($name) {
 
             'WikiGlobalConfig'  => DOKU_PLUGIN.'ownInit/WikiGlobalConfig.php',
 
-//            'MetaDataService'   => DOKU_PLUGIN.'wikiiocmodel/metadata/MetaDataService.php',  //MetaDataService Deprecated
-
             'UpgradeManager' => DOKU_LIB_IOC.'upgrader/UpgradeManager.php',
 
             'AbstractActionManager'        => DOKU_LIB_IOC.'wikiiocmodel/AbstractActionManager.php',
@@ -91,6 +89,8 @@ function ioc_autoload($name) {
             'BasicPermission'      => DOKU_LIB_IOC.'wikiiocmodel/authorization/BasicPermission.php',
             'ProjectPermission'    => DOKU_LIB_IOC.'wikiiocmodel/authorization/ProjectPermission.php',
             'SupervisorPermission' => DOKU_LIB_IOC.'wikiiocmodel/authorization/SupervisorPermission.php',
+
+            'MetaDataExceptions' => DOKU_LIB_IOC.'wikiiocmodel/metadata/MetaDataExceptions.php',
 
             'BasicPersistenceEngine' => DOKU_LIB_IOC.'wikiiocmodel/persistence/BasicPersistenceEngine.php',
             'DataQuery'              => DOKU_LIB_IOC.'wikiiocmodel/persistence/DataQuery.php',

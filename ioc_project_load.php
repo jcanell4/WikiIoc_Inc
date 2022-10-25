@@ -120,16 +120,19 @@ function getDirClass($name) {
                           ,"actions/extra/"
                         )
            ,"Authorization" => array (
-                                 "authorization/"
-                               )
+                           "authorization/"
+                       )
            ,"Model" => array (
                            "datamodel/"
                        )
-           ,"MetaData" => array (
+           ,"Render" => array (
                            "metadata/"
                        )
            ,"Exporter" => array (
                            "exporter/"
+                       )
+           ,"Renderer" => array (
+                           "renderer/"
                        )
            ,"Upgrader" => array (
                            "upgrader/"
@@ -168,19 +171,3 @@ function splitCamelCase($name, $elem, $c=1) {
     }
     return $valor;
 }
-
-//JOSEP: NO CAL. JA TENIM LA LLISTA!
-
-////busca el DokuModelManager correspondiente al tipo de proyecto solicitado en los proyectos de todos los plugins de tipo action
-//function getTheModelManagerForThisProject($currentProjectType) {
-//    global $plugin_controller;
-//    $plugin_list = $plugin_controller->getList('action');
-//    foreach ($plugin_list as $plugin) {
-//        $projectDir = DOKU_PLUGIN."$plugin/projects/$currentProjectType/";
-//        $dokuModelManager = $projectDir.DOKUMODELMANAGER;
-//        if (($existDokuModelManager = @file_exists($dokuModelManager))) {
-//            break;
-//        }
-//    }
-//    return ($existDokuModelManager) ? $dokuModelManager : NULL;
-//}
