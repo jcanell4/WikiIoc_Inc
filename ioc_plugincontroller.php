@@ -232,6 +232,9 @@ class Ioc_Plugin_Controller extends Doku_Plugin_Controller {
             $projectDir = $this->getProjectTypeDir($this->currentProject);
             $ownProjectModel = $this->currentProject."ProjectModel";
             if (!class_exists($ownProjectModel, false)){
+                if (!is_file($projectDir."datamodel/".$ownProjectModel.".php")) {
+                    throw new Exception("Project $ownProjectModel not exist");
+                }
                 require_once $projectDir."datamodel/".$ownProjectModel.".php";
             }
             $projectModel = new $ownProjectModel($this->persistenceEngine);
