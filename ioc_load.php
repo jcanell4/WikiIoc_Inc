@@ -39,6 +39,7 @@ function ioc_autoload($name) {
 
             'TreeParserData'                => DOKU_LIB_IOC.'common/parserCondition/TreeParserData.php',
             'TreeCondition'                 => DOKU_LIB_IOC.'common/parserCondition/TreeCondition.php',
+            'ResolveValues'                 => DOKU_LIB_IOC.'common/parserCondition/ResolveValues.php',
             'IocCommonFunctions'            => DOKU_LIB_IOC.'common/functions/IocCommonFunctions.php',
 
             'ajaxCall'                      => DOKU_LIB_IOC.'ajaxcommand/ajaxClasses.php',
