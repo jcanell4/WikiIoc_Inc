@@ -20,8 +20,17 @@ class Logger {
 
     public static function debug($message, $err, $line, $file, $level=1, $append=NULL) {
         if (self::$debugLevel < $level) return;
-        $append = ($append===NULL) ? self::$fileAppend : ($append) ? $append=FILE_APPEND : $append;
-
+        
+        if($append==NULL){
+            $append = self::$fileAppend;
+        }
+        
+        if($append === TRUE){
+            $append = FILE_APPEND;
+        }else{
+            $append = 0;
+        }
+        
         if(self::$fileName===NULL){
             $debugFile = DOKU_INC.'lib/plugins/tmp/debug.log';
         }else{
