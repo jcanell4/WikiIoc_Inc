@@ -28,7 +28,7 @@ class Logger {
     //això permet tenir el debug sense comentar i només entraria quan el nivell d'error es superior
     public static function debug($message, $err, $line, $file, $level=1, $append=NULL) {
         if (self::$debugLevel < $level) return;
-        
+            
         if($append==NULL){
             $append = self::$fileAppend;
         }
